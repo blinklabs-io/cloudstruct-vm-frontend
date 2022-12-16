@@ -15,7 +15,7 @@ interface Props {
 interface ISettings {
   vmFee: number;
   txFee: number;
-  tosiFee: number;
+  csFee: number;
 }
 
 const TransactionDetail = ({
@@ -27,7 +27,7 @@ const TransactionDetail = ({
   const [settings, setSettings] = useState<ISettings>({
     vmFee: 0,
     txFee: 440000,
-    tosiFee: 500000,
+    csFee: 500000,
   });
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const TransactionDetail = ({
       const settingsFromFeatures = await getFeatures();
       setSettings({
         ...settings,
-        tosiFee: settingsFromFeatures.tosi_fee,
+        csFee: settingsFromFeatures.cs_fee,
         vmFee: settingsFromVM.withdrawal_fee,
       });
     };
@@ -52,7 +52,7 @@ const TransactionDetail = ({
 
   const calcReturnedAda = () => {
     let returnedAda = deposit - settings.vmFee - calcTxFee();
-    if (unlock && !isWhitelisted) returnedAda -= settings.tosiFee;
+    if (unlock && !isWhitelisted) returnedAda -= settings.csFee;
     return returnedAda;
   };
 
@@ -67,7 +67,7 @@ const TransactionDetail = ({
         <div className="w-28 text-right">
           {lovelaceToAda(settings.vmFee)} ADA
         </div>
-        <div className="text-right">Processing fee</div>
+        <div className="text-right">VM fee</div>
       </div>
       <div className="p-1 flex items-center flex-row-reverse border-b border-color">
         <div className="w-28 text-right">{lovelaceToAda(calcTxFee())} ADA</div>
@@ -76,7 +76,7 @@ const TransactionDetail = ({
       {unlock && !isWhitelisted ? (
         <div className="p-1 flex items-center flex-row-reverse border-b border-color text-premium">
           <div className="w-28 text-right">
-            {lovelaceToAda(settings.tosiFee)} ADA
+            {lovelaceToAda(settings.csFee)} ADA
           </div>
           <div className="tooltip-activator cursor-help text-right">
             Premium token fee <FontAwesomeIcon icon={faQuestionCircle} />

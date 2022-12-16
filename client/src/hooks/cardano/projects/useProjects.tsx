@@ -8,18 +8,17 @@ export default function useProjects() {
   const [projects, setProjects] = useState<ProjectData[]>([]);
   const { handleError } = useErrorHandler();
 
-  const getProjectsFromAPI = async () => {
-    try {
-      const projects = await getProjects();
-      setProjects(projects);
-    } catch (error) {
-      handleError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
+    const getProjectsFromAPI = async () => {
+      try {
+        const projects = await getProjects();
+        setProjects(projects);
+      } catch (error) {
+        handleError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
     getProjectsFromAPI();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

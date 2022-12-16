@@ -55,7 +55,7 @@
           process_config:
             enabled: "false" # string, per docs
           tags:
-            - product:tosidrop
+            - product:claims
 
     - name: nodePlaybook | include vm_frontend role
       include_role:

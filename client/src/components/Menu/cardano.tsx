@@ -24,27 +24,27 @@ import {
 
 export const socialMediaItems: Record<string, SocialMediaItem> = {
   twitter: {
-    url: "https://twitter.com/TosiDrop",
+    url: "https://twitter.com/CSCS_pool",
     colorClassname: "text-twitter",
     icon: faTwitter,
   },
   discord: {
-    url: "https://discord.gg/C32Mm3j4fG",
+    url: "https://discord.gg/5fPRZnX4qW",
     colorClassname: "text-discord",
     icon: faDiscord,
   },
   telegram: {
-    url: "https://t.me/+FdDUmLsW8jI0YmUx",
+    url: "https://t.me/CSCS_pool",
     colorClassname: "text-telegram",
     icon: faTelegram,
   },
-  medium: {
-    url: "https://medium.com/@tosidrop",
-    colorClassname: "text",
-    icon: faMedium,
-  },
+  // medium: {
+  //   url: "https://medium.com/@cloudstruct",
+  //   colorClassname: "text",
+  //   icon: faMedium,
+  // },
   github: {
-    url: "https://github.com/TosiDrop",
+    url: "https://github.com/cloudstruct",
     colorClassname: "text",
     icon: faGithub,
   },
@@ -63,30 +63,30 @@ export const menuItems: Record<string, MenuItem> = {
     activeRoute: [PageRoute.historyCardano],
     icon: faClockRotateLeft,
   },
-  projects: {
-    text: "Projects",
-    to: PageRoute.projectsCardano,
-    activeRoute: [PageRoute.projectsCardano],
-    icon: faProjectDiagram,
-  },
-  pools: {
-    text: "Stake Pools",
-    to: PageRoute.poolsCardano,
-    activeRoute: [PageRoute.poolsCardano],
-    icon: faCubesStacked,
-  },
+  // projects: {
+  //   text: "Projects",
+  //   to: PageRoute.projectsCardano,
+  //   activeRoute: [PageRoute.projectsCardano],
+  //   icon: faProjectDiagram,
+  // },
+  // pools: {
+  //   text: "Stake Pools",
+  //   to: PageRoute.poolsCardano,
+  //   activeRoute: [PageRoute.poolsCardano],
+  //   icon: faCubesStacked,
+  // },
   // dashboard: {
   //   text: "Dashboard",
   //   to: PageRoute.dashboardCardano,
   //   activeRoute: [PageRoute.dashboardCardano],
   //   icon: faTableColumns,
   // },
-  feedback: {
-    text: "Feedback",
-    to: PageRoute.feedback,
-    activeRoute: [PageRoute.feedback],
-    icon: faMessage,
-  },
+  // feedback: {
+  //   text: "Feedback",
+  //   to: PageRoute.feedback,
+  //   activeRoute: [PageRoute.feedback],
+  //   icon: faMessage,
+  // },
 };
 
 export default function MenuCardano() {
@@ -139,11 +139,11 @@ export default function MenuCardano() {
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href="https://docs.tosidrop.io/"
+                  href="https://cloudstruct.net/"
                   className="flex flex-row items-center gap-2 text-inactive"
                 >
                   <FontAwesomeIcon className="w-4" icon={faBook} />
-                  Docs
+                  CloudStruct
                   <FontAwesomeIcon
                     className="w-4"
                     icon={faArrowUpRightFromSquare}

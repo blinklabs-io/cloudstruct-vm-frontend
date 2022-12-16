@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
-import Footer from "src/components/Footer";
+// import Footer from "src/components/Footer";
 import Modal from "src/components/Modal";
 import PopUp from "src/components/PopUp";
 import RouterWrapper from "src/layouts/RouterWrapper";
@@ -39,7 +39,6 @@ function App() {
             <RouterWrapper />
           </MenuWrapper>
         </BlockchainWrapper>
-        <Footer></Footer>
       </>
     </ThemeWrapper>
   );

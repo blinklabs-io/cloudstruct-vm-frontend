@@ -1,6 +1,6 @@
 # vm-frontend
 
-Welcome to the Tosidrop VM Frontend!
+Welcome to the CloudStruct VM Frontend!
 
 ## About
 The code is split into two projects, an Express API which serves as a backend

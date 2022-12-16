@@ -57,7 +57,7 @@ const PopUp = () => {
             rel="noreferrer"
             className="ml-auto"
           >
-            <button className="tosi-button px-5 py-2.5 rounded-lg">
+            <button className="cs-button px-5 py-2.5 rounded-lg">
               {popupInfo.buttonText}
             </button>
           </a>

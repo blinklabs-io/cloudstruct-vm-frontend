@@ -18,7 +18,7 @@ import {
   getPrices,
   getRewards,
   getTokens,
-  ITosiFeatures,
+  ICSFeatures,
   IVMSettings,
   postFromKoios,
   translateAdaHandle,
@@ -34,15 +34,15 @@ const CLAIM_ENABLED = process.env.CLAIM_ENABLED || true;
 const CLOUDFLARE_PSK = process.env.CLOUDFLARE_PSK;
 const LOG_TYPE = process.env.LOG_TYPE || "dev";
 const PORT = process.env.PORT || 3000;
-const TOSIFEE = process.env.TOSIFEE || 500000;
-const TOSIFEE_WHITELIST = process.env.TOSIFEE_WHITELIST;
+const CSFEE = process.env.CSFEE || 500000;
+const CSFEE_WHITELIST = process.env.CSFEE_WHITELIST;
 const VM_KOIOS_URL = process.env.KOIOS_URL_TESTNET || process.env.KOIOS_URL;
 
 const oapi = openapi({
   openapi: "3.0.0",
   info: {
-    title: "TosiDrop",
-    description: "Generated API docs for TosiDrop",
+    title: "CloudStruct",
+    description: "Generated API docs for CloudStruct",
     version: "1",
   },
 });
@@ -51,7 +51,8 @@ const app = express();
 app.use(express.json());
 app.use(require("morgan")(LOG_TYPE));
 app.use(oapi);
-app.use("/swaggerui", oapi.swaggerui);
+// Disabled swagger generation
+// app.use("/swaggerui", oapi.swaggerui);
 
 /**
  * Serve static files for our React app
@@ -171,9 +172,9 @@ app.get("/healthz", async (req: any, res: any) => {
 });
 
 app.get("/features", (req: any, res: any) => {
-  const features: ITosiFeatures = {
-    tosi_fee: Number(TOSIFEE),
-    tosi_fee_whitelist: TOSIFEE_WHITELIST,
+  const features: ICSFeatures = {
+    cs_fee: Number(CSFEE),
+    cs_fee_whitelist: CSFEE_WHITELIST,
     airdrop_enabled:
       typeof AIRDROP_ENABLED == "string"
         ? JSON.parse(AIRDROP_ENABLED.toLowerCase())
@@ -316,7 +317,7 @@ app.get(
     } catch (error: any) {
       return res.status(500).send({
         error:
-          "Fails to get the stake key. Are you sure the inserted address is correct?",
+          "Failed to get the stake key. Are you sure the inserted address is correct?",
       });
     }
   }
@@ -483,23 +484,15 @@ app.get(
 
       if (!staking_address)
         return res.status(400).send({ error: "staking_address required" });
-      if (unlock === "true") {
-        if (TOSIFEE_WHITELIST) {
-          const whitelist = TOSIFEE_WHITELIST.split(",");
-          const accountsInfo = await getAccountsInfo(`${staking_address}`);
-          const accountInfo = accountsInfo[0];
-          if (whitelist.includes(accountInfo.delegated_pool)) {
-            vmArgs += "&unlocks_special=true";
-            isWhitelisted = true;
-          } else {
-            vmArgs += `&overhead_fee=${TOSIFEE}&unlocks_special=true`;
-          }
-        } else {
-          vmArgs += `&overhead_fee=${TOSIFEE}&unlocks_special=true`;
-        }
-      } else {
-        vmArgs += "&unlocks_special=false";
+
+      if (CSFEE_WHITELIST) {
+        const whitelist = CSFEE_WHITELIST.split(",");
+        const accountsInfo = await getAccountsInfo(`${staking_address}`);
+        const accountInfo = accountsInfo[0];
+	if (whitelist.includes(accountInfo.delegated_pool)) isWhitelisted = true;
+	// else `&overhead_fee=${CSFEE}&unlocks_special=true`
       }
+      vmArgs += `&unlocks_special=${isWhitelisted}`;
 
       const submitCustomReward: any = await getFromVM(vmArgs);
 

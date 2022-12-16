@@ -1,6 +1,6 @@
 {
-  "title": "Support and Decide Tosi's Future!",
-  "text": "You can govern the future of the TosiDrop platform and benefit from generated revenue use when you hold cTOSI, the TosiDrop platform token. cTOSI is available now on Minswap!",
-  "buttonText": "Buy cTOSI",
-  "buttonLink": "https://app.minswap.org/swap?currencySymbolA=&tokenNameA=&currencySymbolB=a8a1dccea2e378081f2d500d98d022dd3c0bd77afd9dbc7b55a9d21b&tokenNameB=63544f5349"
+  "title": "Welcome to CloudStruct!",
+  "text": "This claims service is provided by CloudStruct to delegators to our pool and the Cardano Community. We're not selling any tokens and the site has no native token. Participation in the Proof of Stake consensus for Cardano and staking with a pool in the Cardano Single Pool Alliance grants you access to claim from this site. Support us by delegating to our pool, CSCS.",
+  "buttonText": "Delegate",
+  "buttonLink": "https://cexplorer.io/pool/pool1y7cmg3cvsndh3nsll0llw7asdz4mferag09kqzw24g6jx2ce5ws/delegate"
 }

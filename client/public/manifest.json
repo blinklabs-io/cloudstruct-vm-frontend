@@ -1,20 +1,20 @@
 {
-    "name": "TosiDrop",
-    "short_name": "TosiDrop",
+    "name": "CloudStruct",
+    "short_name": "CloudStruct",
     "icons": [
         {
-            "src": "/tosidrop-logo-192x192.png",
+            "src": "/cloudstruct-logo-192x192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "/tosidrop-logo-512x512.png",
+            "src": "/cloudstruct-logo-512x512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
     ],
     "theme_color": "#c7d5f4",
     "background_color": "#c7d5f4",
-    "start_url": "https://tosidrop.io",
+    "start_url": "https://app.cloudstruct.net",
     "display": "standalone"
 }

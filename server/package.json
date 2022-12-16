@@ -1,10 +1,10 @@
 {
-  "name": "tosidrop-server",
+  "name": "claim-server",
   "version": "1.0.0",
-  "description": "TosiDrop Express Router",
+  "description": "CloudStruct Express Router",
   "repository": {
     "type": "git",
-    "url": "git://github.com/TosiDrop/vm-frontend.git"
+    "url": "git://github.com/cloudstruct/vm-frontend.git"
   },
   "engines": {
     "node": ">=16",
