@@ -9,7 +9,7 @@ const Projects = () => {
     <Loading></Loading>
   ) : (
     <>
-      <p className="text-3xl">Explore TosiDrop Projects</p>
+      <p className="text-3xl">Explore CSCS Projects</p>
       <div className="flex flex-col gap-4">
         {projects.map((project, i) => {
           return <Project key={i} projectData={project}></Project>;

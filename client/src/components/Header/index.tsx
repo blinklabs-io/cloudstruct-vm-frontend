@@ -3,8 +3,8 @@ import { faBars, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import logoDark from "src/assets/tosidrop-dark.png";
-import logoLight from "src/assets/tosidrop-light.png";
+import logoDark from "src/assets/cloudstruct-dark.png";
+import logoLight from "src/assets/cloudstruct-light.png";
 import WalletSelector from "src/components/WalletSelector";
 import { Blockchain, Themes } from "src/entities/common.entities";
 import useWallet from "src/hooks/useWallet";
@@ -35,8 +35,8 @@ function Header() {
           <div className="">
             <img
               src={theme === Themes.dark ? logoDark : logoLight}
-              className="h-10 logo"
-              alt="tosidrop logo"
+              className="h-20 logo"
+              alt="cloudstruct logo"
             ></img>
           </div>
         </Link>
@@ -65,12 +65,13 @@ function Header() {
         <div>
           <img
             src={theme === Themes.dark ? logoDark : logoLight}
-            className="h-10 logo"
-            alt="tosidrop logo"
+            className="h-14 logo"
+            alt="cloudstruct logo"
           ></img>
         </div>
         <div className="w-14 h-full ml-auto">
           <BlockchainSelector isMobile={true}></BlockchainSelector>
+          <RenderWalletConnector></RenderWalletConnector>
         </div>
       </div>
     </>

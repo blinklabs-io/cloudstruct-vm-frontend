@@ -45,7 +45,9 @@ No testing as of now, might be introduced in the future.
 
 ## CSS
 
-We use tailwind for CSS. Please no CSS files unless necessary. Please refer to [the official documentation](https://tailwindcss.com/). If you are developing TosiDrop client, PLEASE follow the guidelines here. 
+We use tailwind for CSS. Please, no CSS files unless necessary. Please, refer
+to [the official documentation](https://tailwindcss.com/). If you are
+developing a client, PLEASE follow the guidelines here.
 
 ### Big component, e.g., modal, wallet, and main content
 - `rounded-2xl`
@@ -62,7 +64,7 @@ We use tailwind for CSS. Please no CSS files unless necessary. Please refer to [
 - `m-2.5`
 - `py-2.5`
 - `px-5`
-- `tosi-button`
+- `cs-button`
 
 ### Title
 - `text-3xl`

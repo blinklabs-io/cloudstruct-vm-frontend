@@ -58,7 +58,7 @@ const SendAdaInfo = ({
       return (
         <div className="w-full flex justify-center">
           <button
-            className="tosi-button py-2.5 px-5 rounded-lg flex flex-row items-center"
+            className="cs-button py-2.5 px-5 rounded-lg flex flex-row items-center"
             onClick={sendADA}
           >
             Send ADA{" "}

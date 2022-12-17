@@ -20,27 +20,27 @@ import {
 
 export const socialMediaItems: Record<string, SocialMediaItem> = {
   twitter: {
-    url: "https://twitter.com/TosiDrop",
+    url: "https://twitter.com/CSCS_pool",
     colorClassname: "text-twitter",
     icon: faTwitter,
   },
   discord: {
-    url: "https://discord.gg/C32Mm3j4fG",
+    url: "https://discord.gg/5fPRZnX4qW",
     colorClassname: "text-discord",
     icon: faDiscord,
   },
   telegram: {
-    url: "https://t.me/+FdDUmLsW8jI0YmUx",
+    url: "https://t.me/CSCS_pool",
     colorClassname: "text-telegram",
     icon: faTelegram,
   },
-  medium: {
-    url: "https://medium.com/@tosidrop",
-    colorClassname: "text",
-    icon: faMedium,
-  },
+  // medium: {
+  //   url: "https://medium.com/@cloudstruct",
+  //   colorClassname: "text",
+  //   icon: faMedium,
+  // },
   github: {
-    url: "https://github.com/TosiDrop",
+    url: "https://github.com/cloudstruct",
     colorClassname: "text",
     icon: faGithub,
   },
@@ -129,11 +129,11 @@ export default function MenuErgo() {
                 <a
                   target="_blank"
                   rel="noreferrer"
-                  href="https://docs.tosidrop.io/"
+                  href="https://cloudstruct.net/"
                   className="flex flex-row items-center gap-2 text-inactive"
                 >
                   <FontAwesomeIcon className="w-4" icon={faBook} />
-                  Docs
+                  CloudStruct
                   <FontAwesomeIcon
                     className="w-4"
                     icon={faArrowUpRightFromSquare}

@@ -5,6 +5,7 @@ import "./index.scss";
 interface Props {
   index: number;
   ticker: string;
+  price: string;
   selected: boolean;
   handleOnChange: Function;
   amount: number;
@@ -17,6 +18,7 @@ interface Props {
 const ClaimableTokenBox = ({
   index,
   ticker,
+  price,
   selected,
   handleOnChange,
   amount,
@@ -34,7 +36,7 @@ const ClaimableTokenBox = ({
       onClick={() => handleOnChange(index)}
     >
       <div className="w-full flex flex-row items-center">
-        <div>{amount / Math.pow(10, decimals)} available</div>
+        <div>{ticker}</div>
         {premium ? (
           <span className="premium-token tooltip-activator ml-auto">
             <FontAwesomeIcon
@@ -42,14 +44,15 @@ const ClaimableTokenBox = ({
               icon={faStar}
             />
             <div className="tooltip w-64 p-3.5 rounded-2xl right-5 bottom-5 absolute">
-              The star indicates premium token. Premium token requires premium
-              fee to claim.
+              The star indicates a token is distrbuted by CloudStruct as an
+              incentive for delegating with our stake pool, CSCS.
             </div>
           </span>
         ) : null}
       </div>
-      <img alt="" src={logo} className=" h-24"></img>
-      <div className="text-center">{ticker}</div>
+      <img alt="logo" src={logo} className=" h-24"></img>
+      <div className="text-center">Quantity: {amount / Math.pow(10, decimals)}</div>
+      <div className="text-center">Price: {price === "N/A" ? price : price + " ₳ each"}</div>
     </div>
   );
 };

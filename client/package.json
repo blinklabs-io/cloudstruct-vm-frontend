@@ -1,7 +1,7 @@
 {
-  "name": "tosidrop-client",
+  "name": "cloudstruct-claim-client",
   "version": "1.0.0",
-  "description": "TosiDrop Frontend React App",
+  "description": "CloudStruct Claims Frontend React App",
   "engines": {
     "node": ">=16",
     "npm": ">=8"

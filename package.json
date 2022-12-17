@@ -1,7 +1,7 @@
 {
-  "name": "tosidrop-vm",
-  "version": "1.2.0",
-  "description": "TosiDrop VM Frontend!",
+  "name": "vm-frontend",
+  "version": "1.0.0",
+  "description": "VM Frontend",
   "main": "index.js",
   "scripts": {
     "dev": "concurrently \"cd server && npm run start-dev\" \"cd client && npm start\"",
@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/TosiDrop/vm-frontend.git"
+    "url": "git+https://github.com/cloudstruct/vm-frontend.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/TosiDrop/vm-frontend/issues"
+    "url": "https://github.com/cloudstruct/vm-frontend/issues"
   },
-  "homepage": "https://github.com/TosiDrop/vm-frontend#readme",
+  "homepage": "https://github.com/cloudstruct/vm-frontend#readme",
   "devDependencies": {
     "concurrently": "^7.1.0"
   }

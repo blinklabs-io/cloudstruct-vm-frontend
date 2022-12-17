@@ -16,7 +16,6 @@ import { getCustomRewards, getRewards } from "src/services/claim";
 import { RootState } from "src/store";
 
 import ClaimableTokenBox from "src/components/Claim/ClaimableTokenBox";
-import { useQueue } from "src/hooks/cardano/claim/useQueue";
 import useErrorHandler from "src/hooks/useErrorHandler";
 import { getStakeKey } from "src/services/common";
 
@@ -43,7 +42,6 @@ function Claim() {
   const [stakeAddress, setStakeAddress] = useState<string>("");
   const [claimMyRewardLoading, setClaimMyRewardLoading] =
     useState<boolean>(false);
-  const queue = useQueue();
 
   useEffect(() => {
     if (claimableTokens.length) {
@@ -249,7 +247,7 @@ function Claim() {
           ></input>
           <div className="flex flex-row items-center">
             <button
-              className="tosi-button py-2.5 px-5 rounded-lg flex flex-row items-center"
+              className="cs-button py-2.5 px-5 rounded-lg flex flex-row items-center"
               disabled={!hideStakingInfo}
               onClick={checkRewards}
             >
@@ -262,12 +260,12 @@ function Claim() {
             </button>
             <button
               className={
-                "tosi-button py-2.5 px-5 rounded-lg ml-5" +
+                "cs-button py-2.5 px-5 rounded-lg ml-5" +
                 (hideStakingInfo ? " hidden" : "")
               }
               onClick={cancelClaim}
             >
-              <div className="tosi-cancel-text">Cancel</div>
+              <div className="cs-cancel-text">Cancel</div>
             </button>
           </div>
         </div>
@@ -294,7 +292,7 @@ function Claim() {
             <div className="text-premium">
               <FontAwesomeIcon icon={faStar} />
             </div>
-            Premium tokens incur a premium token fee when claiming
+            Starred tokens indicate tokens can be claimed only by CSCS delegators
           </div>
           <div className={"flex flex-row flex-wrap gap-4"}>
             {claimableTokens.map((token, index) => {
@@ -303,6 +301,7 @@ function Claim() {
                   key={index}
                   index={index}
                   ticker={token.ticker}
+                  price={token.price || "N/A"}
                   selected={token.selected || false}
                   handleOnChange={handleTokenSelect}
                   amount={token.amount}
@@ -321,7 +320,7 @@ function Claim() {
             <div>Selected {numberOfSelectedTokens} token</div>
             <div className="ml-auto flex flex-row w-fit">
               <button
-                className="tosi-button py-2.5 px-5 rounded-lg"
+                className="cs-button py-2.5 px-5 rounded-lg"
                 onClick={selectAll}
               >
                 {numberOfSelectedTokens === claimableTokens.length
@@ -329,7 +328,7 @@ function Claim() {
                   : "Select All"}
               </button>
               <button
-                className="tosi-button ml-5 py-2.5 px-5 rounded-lg flex flex-row items-center"
+                className="cs-button ml-5 py-2.5 px-5 rounded-lg flex flex-row items-center"
                 disabled={numberOfSelectedTokens === 0}
                 onClick={claimMyRewards}
               >
@@ -353,9 +352,6 @@ function Claim() {
     <>
       <p className="text-3xl flex items-center gap-2">
         Claim your rewards
-        <div className="background rounded-lg w-fit text-sm h-full flex items-center justify-center px-2.5">
-          Queue: {queue}
-        </div>
       </p>
       <div className="flex flex-col gap-4">
         {renderCheckRewardsStep()}

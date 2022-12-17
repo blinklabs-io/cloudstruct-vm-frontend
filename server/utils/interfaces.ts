@@ -13,9 +13,9 @@ export interface IVMSettings {
   confirmations_required: number;
 }
 
-export interface ITosiFeatures {
-  tosi_fee: number;
-  tosi_fee_whitelist: any;
+export interface ICSFeatures {
+  cs_fee: number;
+  cs_fee_whitelist: any;
   airdrop_enabled: boolean;
   claim_enabled: boolean;
   network: string;

@@ -86,6 +86,6 @@ ansible-playbook ${__repo}/ansible/local.yml \
 set +e
 # Find images from our repo tagged as <none> (orphaned layers)
 echo "Cleaning up leftover Docker images"
-docker images | grep '<none>' | grep 'ghcr.io/tosidrop/vm-frontend' | awk '{print $3}' | xargs docker rmi &>/dev/null
+docker images | grep '<none>' | grep 'ghcr.io/cloudstruct/vm-frontend' | awk '{print $3}' | xargs docker rmi &>/dev/null
 # Don't exit w/ 1 if above fails
 exit 0

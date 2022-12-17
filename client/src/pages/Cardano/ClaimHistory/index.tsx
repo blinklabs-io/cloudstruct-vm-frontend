@@ -53,7 +53,7 @@ function ClaimHistory() {
           ></input>
           <div className="flex flex-row items-center">
             <button
-              className="tosi-button py-2.5 px-5 rounded-lg flex flex-row items-center"
+              className="cs-button py-2.5 px-5 rounded-lg flex flex-row items-center"
               disabled={loading}
               onClick={() => checkClaimHistory(searchAddress)}
             >
