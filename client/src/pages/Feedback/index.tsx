@@ -15,11 +15,7 @@ function Feedback() {
             Discuss on Discord <FontAwesomeIcon icon={faDiscord} />
           </div>
         </a>
-        <a
-          href="https://t.me/CSCS_pool"
-          target="_blank"
-          rel="noreferrer"
-        >
+        <a href="https://t.me/CSCS_pool" target="_blank" rel="noreferrer">
           <div className="cs-button p-5 rounded-2xl text-center w-full mt-5">
             Discuss on Telegram <FontAwesomeIcon icon={faTelegram} />
           </div>
