@@ -102,20 +102,6 @@ export default function MobileMenuCardano() {
               <FontAwesomeIcon icon={faArrowUpRightFromSquare} />
             </a>
           </div>
-          <div className="mb-2.5">
-            <div className={`text flex items-center`}>
-              <FontAwesomeIcon icon={faSun} />
-              <label className="switch mx-2.5">
-                <input
-                  type="checkbox"
-                  checked={theme === Themes.dark ? true : false}
-                  onChange={() => dispatch(toggleTheme())}
-                />
-                <span className="slider round"></span>
-              </label>
-              <FontAwesomeIcon icon={faMoon} />
-            </div>
-          </div>
         </div>
         <div className="mt-10 flex items-center justify-center gap-4">
           {Object.values(socialMediaItems).map(

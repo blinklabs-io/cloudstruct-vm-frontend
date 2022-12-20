@@ -43,12 +43,6 @@ function Header() {
         <div className="flex flex-row gap-4 items-center ml-auto">
           <BlockchainSelector isMobile={false}></BlockchainSelector>
           <RenderWalletConnector></RenderWalletConnector>
-          <button
-            className="background rounded-lg px-5 py-2.5"
-            onClick={() => dispatch(toggleTheme())}
-          >
-            <FontAwesomeIcon icon={theme === Themes.dark ? faSun : faMoon} />
-          </button>
         </div>
       </div>
 

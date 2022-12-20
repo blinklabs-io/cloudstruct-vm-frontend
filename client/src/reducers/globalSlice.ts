@@ -20,9 +20,7 @@ interface InfoModalDetails {
 }
 
 const initialState: State = {
-  theme: localStorage.getItem("theme")
-    ? (localStorage.getItem("theme") as Themes)
-    : Themes.dark,
+  theme: Themes.dark,
   showMenu: false,
   showModal: null,
   infoModalDetails: {
