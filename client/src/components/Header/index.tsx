@@ -1,4 +1,3 @@
-// import BlockchainSelector from "src/components/BlockchainSelector";
 import { faBars, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
@@ -10,7 +9,6 @@ import { Blockchain, Themes } from "src/entities/common.entities";
 import useWallet from "src/hooks/useWallet";
 import { toggleMenu, toggleTheme } from "src/reducers/globalSlice";
 import { RootState } from "src/store";
-import BlockchainSelector from "../BlockchainSelector";
 
 function Header() {
   const dispatch = useDispatch();
@@ -41,7 +39,6 @@ function Header() {
           </div>
         </Link>
         <div className="flex flex-row gap-4 items-center ml-auto">
-          <BlockchainSelector isMobile={false}></BlockchainSelector>
           <RenderWalletConnector></RenderWalletConnector>
         </div>
       </div>
@@ -62,9 +59,6 @@ function Header() {
             className="h-14 logo"
             alt="cloudstruct logo"
           ></img>
-        </div>
-        <div className="w-14 h-full ml-auto">
-          <BlockchainSelector isMobile={true}></BlockchainSelector>
           <RenderWalletConnector></RenderWalletConnector>
         </div>
       </div>
