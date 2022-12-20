@@ -45,6 +45,8 @@ function Claim() {
   const [claimMyRewardLoading, setClaimMyRewardLoading] =
     useState<boolean>(false);
 
+  const [whitelisted, setWhitelisted] = useState(false);
+
   useEffect(() => {
     if (claimableTokens.length) {
       setHideStakingInfo(false);
@@ -103,8 +105,15 @@ function Claim() {
    */
   const handleTokenSelect = (position: number) => {
     const updatedClaimableTokens = [...claimableTokens];
-    updatedClaimableTokens[position].selected =
-      !updatedClaimableTokens[position].selected;
+    if (updatedClaimableTokens[position].premium) {
+      if (whitelisted) {
+        updatedClaimableTokens[position].selected =
+          !updatedClaimableTokens[position].selected;
+      }
+    } else {
+      updatedClaimableTokens[position].selected =
+        !updatedClaimableTokens[position].selected;
+    }
     setClaimableTokens(updatedClaimableTokens);
     setNumberOfSelectedTokens(getNumberOfSelectedTokens());
     setNumberOfSelectedPremiumTokens(getNumberOfSelectedPremiumTokens());
@@ -145,6 +154,7 @@ function Claim() {
                 }
               })
           );
+          if (getRewardsDto.is_whitelisted) setWhitelisted(true);
           setPoolInfo(getRewardsDto.pool_info);
           setRewardsLoader(false);
         } else {
@@ -231,7 +241,7 @@ function Claim() {
         </>
       );
     } else {
-      return <>Unregistered</>;
+      return <>Stake pool information not found</>;
     }
   };
 
@@ -305,7 +315,8 @@ function Claim() {
             <div className="text-premium">
               <FontAwesomeIcon icon={faStar} />
             </div>
-            Starred tokens indicate tokens can be claimed only by CSCS delegators
+            Starred tokens indicate tokens can be claimed only by CSCS
+            delegators
           </div>
           <div className={"flex flex-row flex-wrap gap-4"}>
             {claimableTokens.map((token, index) => {

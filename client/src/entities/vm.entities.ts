@@ -12,6 +12,7 @@ export interface GetRewardsDto {
   consolidated_rewards?: Assets;
   nfts?: any[];
   assets?: Assets;
+  is_whitelisted?: boolean;
   min_balance?: number;
   vending_address?: string;
   withdrawal_fee?: string;
