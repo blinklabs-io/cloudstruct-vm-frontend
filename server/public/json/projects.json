@@ -32,8 +32,7 @@
       "logoCompactDark": "/api/img/project-logo/minswap/minswap-compact-dark.png"
     },
     "descs": {
-      "descShort": "Minswap is a Decentralized Exchange (DEX). The purpose of a DEX is to enable permissionless trading of token pairs.",
-      "descLong": "Minswap is a Decentralized Exchange (DEX). The purpose of a DEX is to enable permissionless trading of token pairs. For each swap, a fee is taken, which goes to the Liquidity Providers (LPs). Anyone can provide Liquidity as well, hence profits are decentralized. Minswap is a community-centric DEX, in that our tokens are fairly distributed, without any private or VC investment.\n\nMinswap has pioneered several ideas in the Cardano ecosystem such as the FISO model, touted as the fairest ISO model in the Cardano community, and they plan to continue developing several value adding features.This will benefit both the Minswap community, and the Cardano community as a whole."
+      "descShort": "Minswap is a Decentralized Exchange (DEX). The purpose of a DEX is to enable permissionless trading of token pairs."
     },
     "token": {
       "token": "MIN",
@@ -49,6 +48,55 @@
       "paper": "https://docs.minswap.org/whitepaper",
       "docs": "https://docs.minswap.org/",
       "cardanoScan": "https://cardanoscan.io/token/29d222ce763455e3d7a09a665ce554f00ac89d2e99a1a83d267170c64d494e"
+    }
+  },
+  {
+    "logos": {
+      "logoDefault": "https://meld-assets.fra1.cdn.digitaloceanspaces.com/meld_wide.png",
+      "logoDark": "https://meld-assets.fra1.cdn.digitaloceanspaces.com/meld_wide_white.png",
+      "logoCompact": "https://meld-assets.fra1.cdn.digitaloceanspaces.com/meld_logo_sm.png"
+    },
+    "descs": {
+      "descShort": "MELD is a decentralized and non-custodial liquidity protocol for borrowing fiat against your crypto assets and earning yield on deposits."
+    },
+    "token": {
+      "token": "MELD",
+      "totalSupply": 4000000000,
+      "policyID": "6ac8ef33b510ec004fe11585f7c5a9f0c07f0c23428ab4f29c1d7d10"
+    },
+    "urls": {
+      "website": "https://meld.com/",
+      "medium": "https://medium.com/meld-defi",
+      "twitter": "https://twitter.com/MELD_defi",
+      "discord": "https://discord.gg/caDXKq75ys",
+      "paper": "https://docs.meld.com/information/whitepaper",
+      "docs": "https://docs.meld.com",
+      "cardanoScan": "https://cardanoscan.io/token/6ac8ef33b510ec004fe11585f7c5a9f0c07f0c23428ab4f29c1d7d104d454c44"
+    }
+  },
+  {
+    "logos": {
+      "logoDefault": "https://worldmobile.io/img/WorldMobile.10c4f329.svg",
+      "logoDark": "https://worldmobile.io/img/WorldMobile.10c4f329.svg",
+      "logoCompact": "https://worldmobile.io/img/WorldMobile.10c4f329.svg"
+    },
+    "descs": {
+      "descShort": "World Mobile Token is the utility token for the world's first mobile network built on the blockchain."
+    },
+    "token": {
+      "token": "WMT",
+      "totalSupply": 2000000000,
+      "policyID": "1d7f33bd23d85e1a25d87d86fac4f199c3197a2f7afeb662a0f34e1e"
+    },
+    "urls": {
+      "website": "https://worldmobiletoken.com/",
+      "medium": "https://worldmobiletoken.com/blog/",
+      "twitter": "https://twitter.com/wmtoken",
+      "telegram": "https://t.me/WorldMobileTeam",
+      "discord": "https://discord.gg/worldmobile",
+      "paper": "https://worldmobiletoken.com/TokenPaper.pdf",
+      "docs": "https://faq.worldmobiletoken.com/docs/",
+      "cardanoScan": "https://cardanoscan.io/token/1d7f33bd23d85e1a25d87d86fac4f199c3197a2f7afeb662a0f34e1e776f726c646d6f62696c65746f6b656e"
     }
   }
 ]
