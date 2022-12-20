@@ -1,9 +1,9 @@
 name: Docker CI
 
-on:
-  pull_request:
-    branches: [ "master", "main" ]
-    paths: [ 'Dockerfile','client/**','public/**','server/**','src/**','*.ts','*.json','.github/workflows/ci-docker.yml' ]
+#on:
+#  pull_request:
+#    branches: [ "master", "main" ]
+#    paths: [ 'Dockerfile','client/**','public/**','server/**','src/**','*.ts','*.json','.github/workflows/ci-docker.yml' ]
 
 env:
   REGISTRY: ghcr.io

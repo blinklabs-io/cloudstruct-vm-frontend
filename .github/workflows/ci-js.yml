@@ -1,9 +1,9 @@
 name: JavaScript CI
 
-on:
-  pull_request:
-    branches: [ "master", "main" ]
-    paths: [ 'client/**','server/**', 'src/**','*.ts','*.json','.github/workflows/ci-js.yml' ]
+#on:
+#  pull_request:
+#    branches: [ "master", "main" ]
+#    paths: [ 'client/**','server/**', 'src/**','*.ts','*.json','.github/workflows/ci-js.yml' ]
 
 jobs:
   build:
