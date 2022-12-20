@@ -9,6 +9,7 @@ export interface ProjectURLs {
   github?: string;
   cardanoScan?: string;
   poolpm?: string;
+  dyor?: string;
 }
 
 export interface ProjectLogos {
