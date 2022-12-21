@@ -6,7 +6,8 @@
       "logoCompact": "/api/img/project-logo/tosidrop/tosidrop-compact-light.png"
     },
     "descs": {
-      "descShort": "TosiDrop is a commercial token distribution service for the Cardano blockchain."
+      "descShort": "TosiDrop is a commercial token distribution service for the Cardano blockchain.",
+      "claimDesc": "Stake 1000 ADA for 2 epochs with CSCS to claim 100 cTOSI per epoch"
     },
     "token": {
       "token": "cTOSI",
@@ -32,7 +33,8 @@
       "logoCompactDark": "/api/img/project-logo/minswap/minswap-compact-dark.png"
     },
     "descs": {
-      "descShort": "Minswap is a Decentralized Exchange (DEX). The purpose of a DEX is to enable permissionless trading of token pairs."
+      "descShort": "Minswap is a Decentralized Exchange (DEX) which enables permissionless trading of token pairs.",
+      "claimDesc": "Stake 1000 ADA for 3 epochs with CSCS to claim 10 MIN per epoch"
     },
     "token": {
       "token": "MIN",
@@ -57,7 +59,8 @@
       "logoCompact": "https://meld-assets.fra1.cdn.digitaloceanspaces.com/meld_logo_sm.png"
     },
     "descs": {
-      "descShort": "MELD is a decentralized and non-custodial liquidity protocol for borrowing fiat against your crypto assets and earning yield on deposits."
+      "descShort": "MELD is a decentralized and non-custodial liquidity protocol for borrowing fiat against your crypto assets and earning yield on deposits.",
+      "claimDesc": "Stake 1000 ADA for 4 epochs with CSCS to claim 10 MELD per epoch"
     },
     "token": {
       "token": "MELD",
@@ -81,7 +84,8 @@
       "logoCompact": "https://wmtscan.com/img/logo.e9d35e4f.svg"
     },
     "descs": {
-      "descShort": "World Mobile Token is the utility token for the world's first mobile network built on the blockchain."
+      "descShort": "World Mobile Token is the utility token for the world's first mobile network built on the blockchain.",
+      "claimDesc": "Stake 1000 ADA for 5 epochs with CSCS to claim 1 WMT per epoch"
     },
     "token": {
       "token": "WMT",
