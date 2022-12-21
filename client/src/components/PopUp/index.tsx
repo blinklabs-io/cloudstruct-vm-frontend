@@ -40,7 +40,7 @@ const PopUp = () => {
       }`}
       ref={ref}
     >
-      <div className={`body-background p-5 shadow-2xl rounded-2xl shadow-xl`}>
+      <div className={`body-background p-5 shadow-2xl rounded-2xl bg-none`}>
         <div className="flex flex-row">
           <p className="text-2xl font-medium">{popupInfo.title}</p>
           <FontAwesomeIcon

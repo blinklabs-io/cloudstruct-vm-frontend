@@ -303,7 +303,9 @@ function Claim() {
       return (
         <div className="flex flex-col gap-4">
           <div
-            className={"background shadow-2xl rounded-2xl p-5 flex flex-row items-center"}
+            className={
+              "background shadow-2xl rounded-2xl p-5 flex flex-row items-center"
+            }
           >
             {renderStakeInfo()}
           </div>
@@ -339,7 +341,9 @@ function Claim() {
           </div>
 
           <div
-            className={"background flex flex-row items-center p-5 shadow-2xl rounded-2xl"}
+            className={
+              "background flex flex-row items-center p-5 shadow-2xl rounded-2xl"
+            }
           >
             <div>
               Selected {numberOfSelectedTokens} token
