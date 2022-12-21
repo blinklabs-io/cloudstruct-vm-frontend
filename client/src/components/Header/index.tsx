@@ -16,11 +16,11 @@ function Header() {
   const theme = useSelector((state: RootState) => state.global.theme);
   const chain = useSelector((state: RootState) => state.global.chain);
 
-  const RenderWalletConnector = (isMobile: any) => {
+  const RenderWalletConnector = () => {
     switch (chain) {
       case Blockchain.cardano:
         return (
-          <WalletSelector connectWallet={connectWallet} isMobile={isMobile} />
+          <WalletSelector connectWallet={connectWallet} isMobile={false} />
         );
       case Blockchain.ergo:
         return null;
@@ -41,7 +41,7 @@ function Header() {
           </div>
         </Link>
         <div className="flex flex-row gap-4 items-center ml-auto">
-          <RenderWalletConnector isMobile={false}></RenderWalletConnector>
+          <RenderWalletConnector></RenderWalletConnector>
         </div>
       </div>
 
@@ -62,7 +62,9 @@ function Header() {
             alt="cloudstruct logo"
           ></img>
         </div>
-        <RenderWalletConnector isMobile={true}></RenderWalletConnector>
+        {chain === Blockchain.cardano ? (
+          <WalletSelector connectWallet={connectWallet} isMobile={true} />
+        ) : null}
       </div>
     </>
   );
