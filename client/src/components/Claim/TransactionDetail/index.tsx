@@ -57,7 +57,7 @@ const TransactionDetail = ({
   };
 
   return (
-    <div className="background rounded-2xl p-5">
+    <div className="background shadow-2xl rounded-2xl p-5">
       Transaction Detail
       <div className="p-1 flex items-center flex-row-reverse border-b border-color">
         <div className="w-28 text-right">{numberOfTokens} tokens</div>
@@ -67,7 +67,7 @@ const TransactionDetail = ({
         <div className="w-28 text-right">
           {lovelaceToAda(settings.vmFee)} ADA
         </div>
-        <div className="text-right">VM fee</div>
+        <div className="text-right">Vending Machine fee</div>
       </div>
       <div className="p-1 flex items-center flex-row-reverse border-b border-color">
         <div className="w-28 text-right">{lovelaceToAda(calcTxFee())} ADA</div>
@@ -80,7 +80,7 @@ const TransactionDetail = ({
           </div>
           <div className="tooltip-activator cursor-help text-right">
             Premium token fee <FontAwesomeIcon icon={faQuestionCircle} />
-            <div className="tooltip p-3.5 rounded-2xl right-5 bottom-4 absolute min-w-52 max-w-64">
+            <div className="tooltip p-3.5 shadow-2xl rounded-2xl right-5 bottom-4 absolute min-w-52 max-w-64">
               This fee is required to claim premium tokens.
             </div>
           </div>

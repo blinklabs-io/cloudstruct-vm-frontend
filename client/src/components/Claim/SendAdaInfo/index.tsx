@@ -43,7 +43,7 @@ const SendAdaInfo = ({
     if (txDetail == null) return null;
     return (
       <div className="w-full flex justify-center">
-        <div className="bg-white rounded-lg p-2.5 w-fit">
+        <div className="bg-white shadow-lg rounded-lg p-2.5 w-fit">
           <QRCode value={txDetail.withdrawal_address} size={180} />
         </div>
       </div>
@@ -58,7 +58,7 @@ const SendAdaInfo = ({
       return (
         <div className="w-full flex justify-center">
           <button
-            className="cs-button py-2.5 px-5 rounded-lg flex flex-row items-center"
+            className="cs-button py-2.5 px-5 shadow-lg rounded-lg flex flex-row items-center"
             onClick={sendADA}
           >
             Send ADA{" "}
@@ -101,7 +101,7 @@ const SendAdaInfo = ({
   };
 
   return (
-    <div className="background rounded-2xl p-5 flex flex-col gap-4">
+    <div className="background shadow-2xl rounded-2xl p-5 flex flex-col gap-4">
       Deposit Address
       <div className="flex flex-row items-center gap-2">
         <div className="whitespace-nowrap">Deposit Address</div>

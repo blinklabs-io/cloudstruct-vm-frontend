@@ -29,7 +29,7 @@ const ClaimableTokenBox = ({
 }: Props) => {
   return (
     <div
-      className={`box-border cursor-pointer background rounded-2xl p-5 flex flex-col gap-4 items-center w-full sm:w-60 border-2 duration-200 ${
+      className={`box-border cursor-pointer background shadow-2xl rounded-2xl p-5 flex flex-col gap-4 items-center w-full sm:w-60 border-2 duration-200 ${
         selected ? "border-selected" : "border-transparent"
       }`}
       key={index}
@@ -43,7 +43,7 @@ const ClaimableTokenBox = ({
               className="text-premium cursor-help premium-pulse"
               icon={faStar}
             />
-            <div className="tooltip w-64 p-3.5 rounded-2xl right-5 bottom-5 absolute">
+            <div className="tooltip w-64 p-3.5 shadow-2xl rounded-2xl right-5 bottom-5 absolute">
               The star indicates a token is distrbuted by CloudStruct as an
               incentive for delegating with our stake pool, CSCS.
             </div>

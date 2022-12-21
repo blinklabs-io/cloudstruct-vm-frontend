@@ -4,7 +4,7 @@ import URLs from "../URLs";
 
 const Project = ({ projectData }: { projectData: ProjectData }) => {
   return (
-    <div className="rounded-2xl background px-2.5 py-2.5 items-center text-base flex flex-col lg:flex-row lg:gap-6">
+    <div className="shadow-2xl rounded-2xl background px-2.5 py-2.5 items-center text-base flex flex-col lg:flex-row lg:gap-6">
       <div className="m-2.5 p-2.5 flex grow w-full items-center gap-6 basis-7/12">
         <div className="basis-3/12">
           <Logo projectLogos={projectData.logos}></Logo>

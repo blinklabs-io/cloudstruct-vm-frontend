@@ -28,13 +28,13 @@ function ClaimHistory() {
     <>
       <p className="text-3xl">History</p>
       <div className="flex flex-col gap-4">
-        <div className="p-5 background text rounded-2xl flex flex-col gap-4">
+        <div className="p-5 background text shadow-2xl rounded-2xl flex flex-col gap-4">
           <p>
             Enter your wallet/stake address or $handle to view your reward
             history
           </p>
           <input
-            className={`w-full rounded-lg bg-transparent border-gray-400 border p-1 disabled:cursor-not-allowed`}
+            className={`w-full shadow-lg rounded-lg bg-transparent border-gray-400 border p-1 disabled:cursor-not-allowed`}
             type="text"
             value={searchAddress}
             onInput={(e: KeyboardEvent<HTMLInputElement>) =>
@@ -53,7 +53,7 @@ function ClaimHistory() {
           ></input>
           <div className="flex flex-row items-center">
             <button
-              className="cs-button py-2.5 px-5 rounded-lg flex flex-row items-center"
+              className="cs-button py-2.5 px-5 shadow-lg rounded-lg flex flex-row items-center"
               disabled={loading}
               onClick={() => checkClaimHistory(searchAddress)}
             >

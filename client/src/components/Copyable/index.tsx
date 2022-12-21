@@ -26,13 +26,13 @@ const Copyable = ({ text }: Props) => {
         icon={faCopy}
       />
       <input
-        className={`w-full rounded-lg bg-transparent border-gray-400 border p-1`}
+        className={`w-full shadow-lg rounded-lg bg-transparent border-gray-400 border p-1`}
         type="text"
         value={text}
         disabled={true}
       ></input>
       <div
-        className={`p-2.5 left-8 rounded-lg absolute tooltip ${
+        className={`p-2.5 left-8 shadow-lg rounded-lg absolute tooltip ${
           isTooltipOpen ? "visible" : "invisible"
         }`}
       >

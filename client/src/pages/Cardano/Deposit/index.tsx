@@ -121,7 +121,7 @@ const DepositInfoPage = () => {
     <>
       <p className="text-3xl flex items-center gap-2">
         Claim your rewards
-        <div className="background rounded-lg w-fit text-sm h-full flex items-center justify-center px-2.5">
+        <div className="background shadow-lg rounded-lg w-fit text-sm h-full flex items-center justify-center px-2.5">
           Queue: {queue}
         </div>
       </p>
