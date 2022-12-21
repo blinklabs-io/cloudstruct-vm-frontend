@@ -32,6 +32,7 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
 
   const disconnectWallet = () => {
     disconnectButtonMenu.setVisible(false);
+    setWalletIcon("");
     connectWallet();
   };
 
@@ -47,6 +48,7 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
         setWalletIcon(connectedWallet.wallet.icon);
       } else {
         setWalletAddress("");
+        setWalletIcon("");
       }
     }
 
@@ -71,8 +73,8 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
           </>
         ) : (
           <div className="flex flex-row items-center gap-2">
-            {isMobile ? null : "Connecting"}
             <Spinner></Spinner>
+            {isMobile ? null : "Connecting"}
           </div>
         )}
       </div>
@@ -101,7 +103,10 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
           )}
         </>
       ) : (
-        <p>Connect</p>
+        <p>
+          <FontAwesomeIcon className="mr-2.5" icon={faWallet} />
+          {isMobile ? null : "Connect"}
+        </p>
       )}
     </div>
   );
