@@ -128,7 +128,9 @@ export default function MenuCardano() {
   return (
     <div className="hidden sm:flex flex-col gap-8">
       <p className="text-3xl opacity-0">_</p>
-      <div className={"background text-lg p-5 shadow-2xl rounded-2xl w-56 h-fit"}>
+      <div
+        className={"background text-lg p-5 shadow-2xl rounded-2xl w-56 h-fit"}
+      >
         <div className="menu">
           <div className="menu-content">
             <div className="flex flex-col gap-2">

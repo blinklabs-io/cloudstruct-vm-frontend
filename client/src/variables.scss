@@ -8,7 +8,11 @@ $avenir-font-medium: "Avenir Next Cyr Medium", sans-serif;
     #ff5135 2.83%,
     #ff8c00 98.67%
   ) !important;
-  --body-background: linear-gradient(
+  --body-background: url("https://www.cloudstruct.net/wp-content/uploads/2018/05/1354234.png")
+      repeat center,
+    url("https://www.cloudstruct.net/wp-content/uploads/2018/05/ph3.png")
+      no-repeat top center,
+    linear-gradient(
       180deg,
       rgba(0, 68, 105, 0) 55.42%,
       rgba(0, 0, 0, 0.45) 102.55%

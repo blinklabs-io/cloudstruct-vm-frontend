@@ -30,12 +30,12 @@ function Header() {
   return (
     <>
       {/* Web header */}
-      <div className="flex-row items-center w-5/6 p-5 pb-0 hidden sm:flex">
+      <div className="flex-row items-center max-w-8xl w-full p-5 pb-0 hidden sm:flex">
         <Link to="/">
-          <div className="ml-2.5 rounded-lg">
+          <div className="">
             <img
               src={theme === Themes.dark ? logoDark : logoLight}
-              className="h-10 logo"
+              className="h-20 logo"
               alt="cloudstruct logo"
             ></img>
           </div>
@@ -58,7 +58,7 @@ function Header() {
         <div>
           <img
             src={theme === Themes.dark ? logoDark : logoLight}
-            className="h-10 mr-2.5 logo"
+            className="h-14 mr-2.5 logo"
             alt="cloudstruct logo"
           ></img>
         </div>
