@@ -36,12 +36,16 @@ function Claim() {
   const [claimableTokens, setClaimableTokens] = useState<ClaimableToken[]>([]);
   const [poolInfo, setPoolInfo] = useState<any>(null);
   const [numberOfSelectedTokens, setNumberOfSelectedTokens] = useState(0);
+  const [numberOfSelectedPremiumTokens, setNumberOfSelectedPremiumTokens] =
+    useState(0);
 
   const [searchAddress, setSearchAddress] = useState<string>("");
   const [rewardsLoader, setRewardsLoader] = useState(false);
   const [stakeAddress, setStakeAddress] = useState<string>("");
   const [claimMyRewardLoading, setClaimMyRewardLoading] =
     useState<boolean>(false);
+
+  const [whitelisted, setWhitelisted] = useState(false);
 
   useEffect(() => {
     if (claimableTokens.length) {
@@ -72,6 +76,15 @@ function Claim() {
     }, 0);
   }, [claimableTokens]);
 
+  const getNumberOfSelectedPremiumTokens = useCallback(() => {
+    return claimableTokens.reduce((prev, token) => {
+      if (token.selected && token.premium) {
+        prev += 1;
+      }
+      return prev;
+    }, 0);
+  }, [claimableTokens]);
+
   /**
    * select/unselect all tokens
    */
@@ -84,6 +97,7 @@ function Claim() {
     }
     setClaimableTokens(updatedClaimableTokens);
     setNumberOfSelectedTokens(getNumberOfSelectedTokens());
+    setNumberOfSelectedPremiumTokens(getNumberOfSelectedPremiumTokens());
   };
 
   /**
@@ -91,10 +105,18 @@ function Claim() {
    */
   const handleTokenSelect = (position: number) => {
     const updatedClaimableTokens = [...claimableTokens];
-    updatedClaimableTokens[position].selected =
-      !updatedClaimableTokens[position].selected;
+    if (updatedClaimableTokens[position].premium) {
+      if (whitelisted) {
+        updatedClaimableTokens[position].selected =
+          !updatedClaimableTokens[position].selected;
+      }
+    } else {
+      updatedClaimableTokens[position].selected =
+        !updatedClaimableTokens[position].selected;
+    }
     setClaimableTokens(updatedClaimableTokens);
     setNumberOfSelectedTokens(getNumberOfSelectedTokens());
+    setNumberOfSelectedPremiumTokens(getNumberOfSelectedPremiumTokens());
   };
 
   const checkRewards = async () => {
@@ -132,6 +154,7 @@ function Claim() {
                 }
               })
           );
+          if (getRewardsDto.is_whitelisted) setWhitelisted(true);
           setPoolInfo(getRewardsDto.pool_info);
           setRewardsLoader(false);
         } else {
@@ -218,7 +241,7 @@ function Claim() {
         </>
       );
     } else {
-      return <>Unregistered</>;
+      return <>Stake pool information not found</>;
     }
   };
 
@@ -292,7 +315,8 @@ function Claim() {
             <div className="text-premium">
               <FontAwesomeIcon icon={faStar} />
             </div>
-            Starred tokens indicate tokens can be claimed only by CSCS delegators
+            Starred tokens indicate tokens can be claimed only by CSCS
+            delegators
           </div>
           <div className={"flex flex-row flex-wrap gap-4"}>
             {claimableTokens.map((token, index) => {
@@ -317,7 +341,13 @@ function Claim() {
           <div
             className={"background flex flex-row items-center p-5 rounded-2xl"}
           >
-            <div>Selected {numberOfSelectedTokens} token</div>
+            <div>
+              Selected {numberOfSelectedTokens} token
+              {numberOfSelectedTokens >= 0 ? "s" : null}
+              {numberOfSelectedPremiumTokens !== 0
+                ? `, ${numberOfSelectedPremiumTokens} premium tokens`
+                : null}
+            </div>
             <div className="ml-auto flex flex-row w-fit">
               <button
                 className="cs-button py-2.5 px-5 rounded-lg"
@@ -350,9 +380,7 @@ function Claim() {
 
   return (
     <>
-      <p className="text-3xl flex items-center gap-2">
-        Claim your rewards
-      </p>
+      <p className="text-3xl flex items-center gap-2">Claim your rewards</p>
       <div className="flex flex-col gap-4">
         {renderCheckRewardsStep()}
         {renderStakingInfoStep()}

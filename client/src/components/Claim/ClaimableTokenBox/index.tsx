@@ -51,8 +51,12 @@ const ClaimableTokenBox = ({
         ) : null}
       </div>
       <img alt="logo" src={logo} className=" h-24"></img>
-      <div className="text-center">Quantity: {amount / Math.pow(10, decimals)}</div>
-      <div className="text-center">Price: {price === "N/A" ? price : price + " ₳ each"}</div>
+      <div className="text-center">
+        Quantity: {amount / Math.pow(10, decimals)}
+      </div>
+      <div className="text-center">
+        Price: {price === "N/A" ? price : price + " ₳ each"}
+      </div>
     </div>
   );
 };

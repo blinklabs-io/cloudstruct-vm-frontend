@@ -348,6 +348,7 @@ app.get(
               properties: {
                 pool_info: { type: "object" },
                 claimable_tokens: { type: "object" },
+                is_whitelisted: { type: "boolean" },
               },
             },
           },
@@ -383,6 +384,7 @@ app.get(
     try {
       const queryObject = url.parse(req.url, true).query;
       const stakeAddress = queryObject.address as string;
+      let isWhitelisted = false;
       if (!stakeAddress)
         return res
           .status(400)
@@ -391,10 +393,19 @@ app.get(
       let claimableTokens = await getRewards(stakeAddress);
       const accountsInfo = await getAccountsInfo(stakeAddress);
       const poolInfo = await getPoolMetadata(accountsInfo[0]);
+      if (CSFEE_WHITELIST) {
+        const whitelist = CSFEE_WHITELIST.split(",");
+        const accountsInfo = await getAccountsInfo(`${stakeAddress}`);
+        const accountInfo = accountsInfo[0];
+        if (whitelist.includes(accountInfo.delegated_pool))
+          isWhitelisted = true;
+        // else `&overhead_fee=${CSFEE}&unlocks_special=true`
+      }
 
       const consolidatedGetRewards = {
         pool_info: poolInfo,
         claimable_tokens: claimableTokens,
+        is_whitelisted: isWhitelisted,
       };
 
       return res.send(consolidatedGetRewards);
@@ -489,8 +500,9 @@ app.get(
         const whitelist = CSFEE_WHITELIST.split(",");
         const accountsInfo = await getAccountsInfo(`${staking_address}`);
         const accountInfo = accountsInfo[0];
-	if (whitelist.includes(accountInfo.delegated_pool)) isWhitelisted = true;
-	// else `&overhead_fee=${CSFEE}&unlocks_special=true`
+        if (whitelist.includes(accountInfo.delegated_pool))
+          isWhitelisted = true;
+        // else `&overhead_fee=${CSFEE}&unlocks_special=true`
       }
       vmArgs += `&unlocks_special=${isWhitelisted}`;
 
