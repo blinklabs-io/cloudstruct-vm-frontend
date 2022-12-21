@@ -16,10 +16,12 @@ function Header() {
   const theme = useSelector((state: RootState) => state.global.theme);
   const chain = useSelector((state: RootState) => state.global.chain);
 
-  const RenderWalletConnector = () => {
+  const RenderWalletConnector = (isMobile: any) => {
     switch (chain) {
       case Blockchain.cardano:
-        return <WalletSelector connectWallet={connectWallet} />;
+        return (
+          <WalletSelector connectWallet={connectWallet} isMobile={isMobile} />
+        );
       case Blockchain.ergo:
         return null;
     }
@@ -39,7 +41,7 @@ function Header() {
           </div>
         </Link>
         <div className="flex flex-row gap-4 items-center ml-auto">
-          <RenderWalletConnector></RenderWalletConnector>
+          <RenderWalletConnector isMobile={false}></RenderWalletConnector>
         </div>
       </div>
 
@@ -56,11 +58,11 @@ function Header() {
         <div>
           <img
             src={theme === Themes.dark ? logoDark : logoLight}
-            className="h-14 logo"
+            className="h-10 mr-2.5 logo"
             alt="cloudstruct logo"
           ></img>
-          <RenderWalletConnector></RenderWalletConnector>
         </div>
+        <RenderWalletConnector isMobile={true}></RenderWalletConnector>
       </div>
     </>
   );

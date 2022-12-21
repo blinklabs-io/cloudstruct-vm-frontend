@@ -1,4 +1,4 @@
-import { faLinkSlash } from "@fortawesome/free-solid-svg-icons";
+import { faLinkSlash, faWallet } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,9 +12,10 @@ import { abbreviateAddress } from "src/utils";
 
 interface Props {
   connectWallet: (walletKey?: WalletKeys) => void;
+  isMobile: boolean;
 }
 
-function WalletSelector({ connectWallet }: Props) {
+function WalletSelector({ connectWallet, isMobile }: Props) {
   const dispatch = useDispatch();
   const connectedWallet = useSelector(
     (state: RootState) => state.wallet.walletApi
@@ -27,6 +28,7 @@ function WalletSelector({ connectWallet }: Props) {
   const disconnectButtonMenu = useComponentVisible(false);
   const [walletAddress, setWalletAddress] = useState("");
   const [walletIcon, setWalletIcon] = useState("");
+  // const [walletIcon, setWalletIcon] = useState(`${faWallet}`);
 
   const disconnectWallet = () => {
     disconnectButtonMenu.setVisible(false);
@@ -54,7 +56,9 @@ function WalletSelector({ connectWallet }: Props) {
   const ConnectedButton = () => {
     return (
       <div
-        className="rounded-lg background flex items-center justify-center px-5 py-2.5 cursor-pointer flex items-center gap-2"
+        className={`${
+          isMobile ? "w-full h-full" : "px-5"
+        } rounded-lg background flex items-center justify-center py-2.5 cursor-pointer flex items-center gap-2`}
         onClick={() => toggleDisconnectButton()}
       >
         {walletIcon ? (
@@ -62,12 +66,12 @@ function WalletSelector({ connectWallet }: Props) {
             <img src={walletIcon} className="h-5" alt="wallet icon"></img>
             <p>
               {networkId === 0 ? "(preview) " : ""}
-              {walletAddress}
+              {isMobile ? null : walletAddress}
             </p>
           </>
         ) : (
           <div className="flex flex-row items-center gap-2">
-            Connecting
+            {isMobile ? null : "Connecting"}
             <Spinner></Spinner>
           </div>
         )}
@@ -77,7 +81,9 @@ function WalletSelector({ connectWallet }: Props) {
 
   const NotConnectedButton = () => (
     <div
-      className="rounded-lg background flex items-center justify-center px-5 py-2.5 cursor-pointer"
+      className={`${
+        isMobile ? "px-5" : "px-5"
+      } rounded-lg background flex items-center justify-center py-2.5 cursor-pointer`}
       onClick={() =>
         dispatch(
           showModal({
@@ -86,7 +92,17 @@ function WalletSelector({ connectWallet }: Props) {
         )
       }
     >
-      <p>Connect</p>
+      {walletIcon ? (
+        <>
+          {isMobile ? (
+            <FontAwesomeIcon icon={faWallet} />
+          ) : (
+            <img src={walletIcon} className="h-5" alt="wallet icon"></img>
+          )}
+        </>
+      ) : (
+        <p>Connect</p>
+      )}
     </div>
   );
 
