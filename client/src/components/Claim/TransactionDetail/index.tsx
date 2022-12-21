@@ -67,7 +67,7 @@ const TransactionDetail = ({
         <div className="w-28 text-right">
           {lovelaceToAda(settings.vmFee)} ADA
         </div>
-        <div className="text-right">VM fee</div>
+        <div className="text-right">Vending Machine fee</div>
       </div>
       <div className="p-1 flex items-center flex-row-reverse border-b border-color">
         <div className="w-28 text-right">{lovelaceToAda(calcTxFee())} ADA</div>
