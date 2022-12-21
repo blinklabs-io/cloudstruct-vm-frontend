@@ -248,10 +248,10 @@ function Claim() {
   function renderCheckRewardsStep() {
     if (!hideCheck) {
       return (
-        <div className="p-5 background text rounded-2xl flex flex-col gap-4">
+        <div className="p-5 background text shadow-2xl rounded-2xl flex flex-col gap-4">
           <p>Enter your wallet/stake address or $handle to view your rewards</p>
           <input
-            className={`w-full rounded-lg bg-transparent border-gray-400 border p-1 disabled:cursor-not-allowed`}
+            className={`w-full shadow-lg rounded-lg bg-transparent border-gray-400 border p-1 disabled:cursor-not-allowed`}
             type="text"
             value={searchAddress}
             onInput={(e: KeyboardEvent<HTMLInputElement>) =>
@@ -270,7 +270,7 @@ function Claim() {
           ></input>
           <div className="flex flex-row items-center">
             <button
-              className="cs-button py-2.5 px-5 rounded-lg flex flex-row items-center"
+              className="cs-button py-2.5 px-5 shadow-lg rounded-lg flex flex-row items-center"
               disabled={!hideStakingInfo}
               onClick={checkRewards}
             >
@@ -283,7 +283,7 @@ function Claim() {
             </button>
             <button
               className={
-                "cs-button py-2.5 px-5 rounded-lg ml-5" +
+                "cs-button py-2.5 px-5 shadow-lg rounded-lg ml-5" +
                 (hideStakingInfo ? " hidden" : "")
               }
               onClick={cancelClaim}
@@ -303,13 +303,13 @@ function Claim() {
       return (
         <div className="flex flex-col gap-4">
           <div
-            className={"background rounded-2xl p-5 flex flex-row items-center"}
+            className={"background shadow-2xl rounded-2xl p-5 flex flex-row items-center"}
           >
             {renderStakeInfo()}
           </div>
           <div
             className={
-              "background rounded-2xl p-5 flex flex-row items-center gap-2"
+              "background shadow-2xl rounded-2xl p-5 flex flex-row items-center gap-2"
             }
           >
             <div className="text-premium">
@@ -339,7 +339,7 @@ function Claim() {
           </div>
 
           <div
-            className={"background flex flex-row items-center p-5 rounded-2xl"}
+            className={"background flex flex-row items-center p-5 shadow-2xl rounded-2xl"}
           >
             <div>
               Selected {numberOfSelectedTokens} token
@@ -350,7 +350,7 @@ function Claim() {
             </div>
             <div className="ml-auto flex flex-row w-fit">
               <button
-                className="cs-button py-2.5 px-5 rounded-lg"
+                className="cs-button py-2.5 px-5 shadow-lg rounded-lg"
                 onClick={selectAll}
               >
                 {numberOfSelectedTokens === claimableTokens.length
@@ -358,7 +358,7 @@ function Claim() {
                   : "Select All"}
               </button>
               <button
-                className="cs-button ml-5 py-2.5 px-5 rounded-lg flex flex-row items-center"
+                className="cs-button ml-5 py-2.5 px-5 shadow-lg rounded-lg flex flex-row items-center"
                 disabled={numberOfSelectedTokens === 0}
                 onClick={claimMyRewards}
               >
@@ -374,7 +374,21 @@ function Claim() {
         </div>
       );
     } else {
-      return null;
+      return (
+        <div className="flex flex-col gap-4">
+          <div
+            className={
+              "background shadow-2xl rounded-2xl p-5 flex flex-row items-center gap-2"
+            }
+          >
+            <div className="text-premium">
+              <FontAwesomeIcon icon={faStar} />
+            </div>
+            Starred tokens indicate tokens can be claimed only by CSCS
+            delegators
+          </div>
+        </div>
+      );
     }
   }
 

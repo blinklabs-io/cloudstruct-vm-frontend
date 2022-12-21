@@ -7,7 +7,7 @@ export default function HistoryTable({
   claimHistory: ParsedReward[];
 }) {
   return claimHistory.length ? (
-    <table className="background rounded-2xl p-5 table-fixed border-separate text-left">
+    <table className="background shadow-2xl rounded-2xl p-5 table-fixed border-separate text-left">
       <thead className="border-b">
         <tr>
           <th className="w-2/12">Date/Time</th>

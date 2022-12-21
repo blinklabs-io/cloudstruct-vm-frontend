@@ -30,11 +30,11 @@ const DepositInfo = ({
 }: Params) => {
   return (
     <div className="flex flex-col gap-4">
-      <div className="bg-yellow-400 rounded-2xl p-5 text-black">
+      <div className="bg-yellow-400 shadow-2xl rounded-2xl p-5 text-black">
         <FontAwesomeIcon className="mr-2.5" icon={faWarning} />
         <span>Please send ONLY from the wallet with the same stake key</span>
       </div>
-      <div className="background rounded-2xl p-5">
+      <div className="background shadow-2xl rounded-2xl p-5">
         <div>
           Please complete the withdrawal process by sending{" "}
           <b>{lovelaceToAda(txDetail?.deposit ?? 0)} ADA</b> using one of the

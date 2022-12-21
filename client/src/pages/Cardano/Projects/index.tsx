@@ -14,7 +14,7 @@ const Projects = () => {
       <p className="text-3xl">Explore Token Projects</p>
       <div
         className={
-          "background rounded-2xl p-5 flex flex-row items-center gap-2"
+          "background shadow-2xl rounded-2xl p-5 flex flex-row items-center gap-2"
         }
       >
         <div className="text-premium">

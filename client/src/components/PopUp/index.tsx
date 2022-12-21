@@ -40,7 +40,7 @@ const PopUp = () => {
       }`}
       ref={ref}
     >
-      <div className={`body-background p-5 rounded-2xl shadow-xl`}>
+      <div className={`body-background p-5 shadow-2xl rounded-2xl shadow-xl`}>
         <div className="flex flex-row">
           <p className="text-2xl font-medium">{popupInfo.title}</p>
           <FontAwesomeIcon
@@ -57,7 +57,7 @@ const PopUp = () => {
             rel="noreferrer"
             className="ml-auto"
           >
-            <button className="cs-button px-5 py-2.5 rounded-lg">
+            <button className="cs-button px-5 py-2.5 shadow-lg rounded-lg">
               {popupInfo.buttonText}
             </button>
           </a>

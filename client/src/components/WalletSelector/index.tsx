@@ -60,7 +60,7 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
       <div
         className={`${
           isMobile ? "w-full h-full" : "px-5"
-        } rounded-lg background flex items-center justify-center py-2.5 cursor-pointer flex items-center gap-2`}
+        } shadow-lg rounded-lg background flex items-center justify-center py-2.5 cursor-pointer flex items-center gap-2`}
         onClick={() => toggleDisconnectButton()}
       >
         {walletIcon ? (
@@ -85,7 +85,7 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
     <div
       className={`${
         isMobile ? "px-5" : "px-5"
-      } rounded-lg background flex items-center justify-center py-2.5 cursor-pointer`}
+      } shadow-lg rounded-lg background flex items-center justify-center py-2.5 cursor-pointer`}
       onClick={() =>
         dispatch(
           showModal({
@@ -114,7 +114,7 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
   const WrongNetworkButton = () => (
     <div
       className={
-        "rounded-lg background flex items-center justify-center px-5 py-2.5 cursor-pointer"
+        "shadow-lg rounded-lg background flex items-center justify-center px-5 py-2.5 cursor-pointer"
       }
       onClick={() => toggleDisconnectButton()}
     >
@@ -134,7 +134,7 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
       <div
         ref={disconnectButtonMenu.ref}
         className={
-          "absolute top-14 w-full background py-2.5 px-5 rounded-lg cursor-pointer flex items-center gap-2" +
+          "absolute top-14 w-full background py-2.5 px-5 shadow-lg rounded-lg cursor-pointer flex items-center gap-2" +
           (connectedWallet?.wallet?.api && disconnectButtonMenu.visible
             ? ""
             : " hidden")

@@ -51,16 +51,19 @@ developing a client, PLEASE follow the guidelines here.
 
 ### Big component, e.g., modal, wallet, and main content
 - `rounded-2xl`
+- `shadow-2xl`
 - `p-5`
 - `m-5`
 
 ### Small component, e.g., wallet selector
 - `rounded-lg`
+- `shadow-lg`
 - `p-2.5`
 - `m-2.5`
 
 ### Button
 - `rounded-lg`
+- `shadow-lg`
 - `m-2.5`
 - `py-2.5`
 - `px-5`
