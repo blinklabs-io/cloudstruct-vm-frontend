@@ -35,7 +35,7 @@ function Header() {
           <div className="">
             <img
               src={theme === Themes.dark ? logoDark : logoLight}
-              className="h-20 logo"
+              className="h-10 logo"
               alt="cloudstruct logo"
             ></img>
           </div>
