@@ -9,10 +9,10 @@ import {
   faArrowUpRightFromSquare,
   faBook,
   faClockRotateLeft,
+  faCloudRain,
   faCubesStacked,
   faMessage,
   faProjectDiagram,
-  faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link, useLocation } from "react-router-dom";
@@ -55,7 +55,7 @@ export const menuItems: Record<string, MenuItem> = {
     text: "Claim",
     to: PageRoute.claimCardano,
     activeRoute: [PageRoute.claimCardano, PageRoute.depositCardano],
-    icon: faWallet,
+    icon: faCloudRain,
   },
   history: {
     text: "History",
