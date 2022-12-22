@@ -4,6 +4,8 @@ import HistoryTable from "src/components/HistoryTable";
 import Spinner from "src/components/Spinner";
 import useClaimHistory from "src/hooks/cardano/claimHistory/useClaimHistory";
 import { RootState } from "src/store";
+import { faLightbulb } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 function ClaimHistory() {
   const connectedWallet = useSelector(
@@ -64,6 +66,15 @@ function ClaimHistory() {
                 </div>
               ) : null}
             </button>
+          </div>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className={"background shadow-2xl rounded-2xl p-5 flex flex-row items-center gap-2"}>
+            <div className="text-premium">
+              <FontAwesomeIcon icon={faLightbulb} />
+            </div>
+            CloudStruct token distributions share a backend withdrawal history
+            with TosiDrop and Vending Machine
           </div>
         </div>
         <HistoryTable claimHistory={claimHistory}></HistoryTable>
