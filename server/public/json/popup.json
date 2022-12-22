@@ -1,6 +1,6 @@
 {
   "title": "Welcome to CloudStruct!",
-  "text": "This claims service is provided by CloudStruct to delegators to our pool and the Cardano Community. We're not selling any tokens and the site has no native token. Participation in the Proof of Stake consensus for Cardano and staking with a pool in the Cardano Single Pool Alliance grants you access to claim from this site. Support us by delegating to our pool, CSCS.",
+  "text": "This claims service is provided by CloudStruct to delegators of our pool and the Cardano Community. Participation in the Proof of Stake consensus for Cardano and staking with a pool in the Cardano Single Pool Alliance grants you access to claim from this site. Support us by delegating to our pool, CSCS.",
   "buttonText": "Delegate",
   "buttonLink": "https://cexplorer.io/pool/pool1y7cmg3cvsndh3nsll0llw7asdz4mferag09kqzw24g6jx2ce5ws/delegate"
 }
