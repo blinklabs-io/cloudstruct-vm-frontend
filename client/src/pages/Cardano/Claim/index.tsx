@@ -78,7 +78,7 @@ function Claim() {
 
   const getNumberOfSelectedPremiumTokens = useCallback(() => {
     return claimableTokens.reduce((prev, token) => {
-      if (token.selected && token.premium) {
+      if (token.selected && token.premium && token.ticker !== "ADA") {
         prev += 1;
       }
       return prev;
@@ -105,7 +105,9 @@ function Claim() {
    */
   const handleTokenSelect = (position: number) => {
     const updatedClaimableTokens = [...claimableTokens];
-    if (updatedClaimableTokens[position].premium) {
+    if (updatedClaimableTokens[position].ticker === "ADA") {
+      updatedClaimableTokens[position].selected = true;
+    } else if (updatedClaimableTokens[position].premium) {
       if (whitelisted) {
         updatedClaimableTokens[position].selected =
           !updatedClaimableTokens[position].selected;
@@ -139,15 +141,19 @@ function Claim() {
           setClaimableTokens(
             getRewardsDto.claimable_tokens
               .map((token) => {
-                token.selected = false;
+                token.selected = token.ticker === "ADA" ? true : false;
                 return token;
               })
               .sort((a, b) => {
-                if (a.premium === b.premium) {
+                if (a.ticker === "ADA") {
+                  return -1;
+                } else if (b.ticker === "ADA") {
+                  return 1;
+                } else if (a.premium === b.premium) {
                   if (a.ticker < b.ticker) {
                     return -1;
                   } else {
-                    return 1;
+                    return a.ticker === "ADA" ? -1 : 1;
                   }
                 } else {
                   return a.premium ? -1 : 1;
@@ -327,8 +333,10 @@ function Claim() {
                   key={index}
                   index={index}
                   ticker={token.ticker}
-                  price={token.price || "N/A"}
-                  selected={token.selected || false}
+                  price={token.ticker === "ADA" ? "1.0" : token.price || "N/A"}
+                  selected={
+                    token.ticker === "ADA" ? true : token.selected || false
+                  }
                   handleOnChange={handleTokenSelect}
                   amount={token.amount}
                   decimals={token.decimals}

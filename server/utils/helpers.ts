@@ -183,7 +183,56 @@ export async function getRewards(stakeAddress: string) {
     getRewardsResponse.consolidated_rewards,
   ];
 
-  if (rewardArray == null) return [];
+  // We have no rewards
+  if (rewardArray == null && getRewardsResponse.project_locked_rewards == null) return [];
+
+  if (getRewardsResponse.project_locked_rewards != null) {
+    rewardArray = [
+      getRewardsResponse.project_locked_rewards.consolidated_promises,
+      getRewardsResponse.project_locked_rewards.consolidated_rewards,
+    ];
+
+    if (rewardArray != null) {
+      // We have premium tokens to check
+      rewardArray.forEach((reward: any) => {
+        Object.keys(reward).forEach((assetId: string) => {
+          // Treat ADA as non-premium, always
+          if (assetId === "lovelace") {
+            if (consolidatedAvailableReward[assetId]) {
+              consolidatedAvailableReward[assetId] += reward[assetId];
+            } else {
+              consolidatedAvailableReward[assetId] = reward[assetId];
+            }
+          } else if (consolidatedAvailableRewardPremium[assetId]) {
+            consolidatedAvailableRewardPremium[assetId] += reward[assetId];
+          } else {
+            consolidatedAvailableRewardPremium[assetId] = reward[assetId];
+          }
+        });
+      });
+
+      Object.keys(consolidatedAvailableRewardPremium).forEach((assetId) => {
+        const token = tokens[assetId];
+        if (token) {
+          claimableTokens.push({
+            assetId,
+            ticker: token.ticker,
+            logo: token.logo,
+            decimals: token.decimals,
+            amount: consolidatedAvailableRewardPremium[assetId],
+            premium: true,
+            price: tokenPrice(assetId, prices),
+          });
+        }
+      });
+    } // end premium
+  }
+
+  // Now, process regular rewards
+  rewardArray = [
+    getRewardsResponse.consolidated_promises,
+    getRewardsResponse.consolidated_rewards,
+  ];
 
   rewardArray.forEach((reward: any) => {
     Object.keys(reward).forEach((assetId: string) => {
@@ -205,42 +254,6 @@ export async function getRewards(stakeAddress: string) {
         decimals: token.decimals,
         amount: consolidatedAvailableReward[assetId],
         premium: false,
-        price: tokenPrice(assetId, prices),
-      });
-    }
-  });
-
-  /**
-   * handle premium tokens
-   */
-
-  if (getRewardsResponse.project_locked_rewards != null) {
-    rewardArray = [
-      getRewardsResponse.project_locked_rewards.consolidated_promises,
-      getRewardsResponse.project_locked_rewards.consolidated_rewards,
-    ];
-  }
-
-  rewardArray.forEach((reward: any) => {
-    Object.keys(reward).forEach((assetId: string) => {
-      if (consolidatedAvailableRewardPremium[assetId]) {
-        consolidatedAvailableRewardPremium[assetId] += reward[assetId];
-      } else {
-        consolidatedAvailableRewardPremium[assetId] = reward[assetId];
-      }
-    });
-  });
-
-  Object.keys(consolidatedAvailableRewardPremium).forEach((assetId) => {
-    const token = tokens[assetId];
-    if (token) {
-      claimableTokens.push({
-        assetId,
-        ticker: token.ticker,
-        logo: token.logo,
-        decimals: token.decimals,
-        amount: consolidatedAvailableRewardPremium[assetId],
-        premium: true,
         price: tokenPrice(assetId, prices),
       });
     }
