@@ -347,7 +347,7 @@ function Claim() {
           >
             <div>
               Selected {numberOfSelectedTokens} token
-              {numberOfSelectedTokens >= 0 ? "s" : null}
+              {numberOfSelectedTokens !== 1 ? "s" : null}
               {numberOfSelectedPremiumTokens !== 0
                 ? `, ${numberOfSelectedPremiumTokens} premium tokens`
                 : null}
