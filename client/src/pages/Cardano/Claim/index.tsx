@@ -378,21 +378,7 @@ function Claim() {
         </div>
       );
     } else {
-      return (
-        <div className="flex flex-col gap-4">
-          <div
-            className={
-              "background shadow-2xl rounded-2xl p-5 flex flex-row items-center gap-2"
-            }
-          >
-            <div className="text-premium">
-              <FontAwesomeIcon icon={faStar} />
-            </div>
-            Starred tokens indicate tokens can be claimed only by CSCS
-            delegators
-          </div>
-        </div>
-      );
+      return null;
     }
   }
 
