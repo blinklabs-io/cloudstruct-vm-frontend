@@ -104,7 +104,7 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
         </>
       ) : (
         <p>
-          <FontAwesomeIcon icon={faWallet} />
+          <FontAwesomeIcon className={isMobile ? "" : "mr-2.5"} icon={faWallet} />
           {isMobile ? null : "Connect"}
         </p>
       )}
