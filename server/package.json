@@ -1,10 +1,10 @@
 {
-  "name": "claim-server",
+  "name": "tosidrop-server",
   "version": "1.0.0",
-  "description": "CloudStruct Express Router",
+  "description": "TosiDrop Express Router",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cloudstruct/vm-frontend.git"
+    "url": "git://github.com/TosiDrop/vm-frontend.git"
   },
   "engines": {
     "node": ">=16",
@@ -21,7 +21,7 @@
   "proxy": "http://localhost:3000",
   "keywords": [],
   "dependencies": {
-    "@emurgo/cardano-serialization-lib-nodejs": "^11.2.1",
+    "@emurgo/cardano-serialization-lib-nodejs": "^11.1.0",
     "@wesleytodd/openapi": "^0.1.0",
     "axios": "^0.26.0",
     "cors": "^2.8.5",
