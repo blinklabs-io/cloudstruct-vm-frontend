@@ -33,18 +33,16 @@ strong {
 }
 
 .cs-button {
-  background: var(--gradient-button-default);
-  background: var(--gradient-button);
+  background: var(--button-default);
   color: var(--font-highlight);
   cursor: pointer;
 
   &:hover {
-    background: var(--gradient-button-hover-default);
-    background: var(--gradient-button-hover);
+    background: var(--button-hover-default);
   }
 
   &:disabled {
-    background: var(--gradient-button-disabled) !important;
+    background: var(--button-disabled) !important;
     cursor: initial;
     opacity: 0.8;
   }

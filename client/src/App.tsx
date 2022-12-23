@@ -32,7 +32,7 @@ function App() {
   return (
     <ThemeWrapper>
       <>
-        <PopUp></PopUp>
+        <PopUp />
         <Modal />
         <Header />
         <BlockchainWrapper>
