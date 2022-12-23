@@ -59,15 +59,15 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
     return (
       <div
         className={`${
-          isMobile ? "w-full h-full" : "px-5"
-        } shadow-lg rounded-lg background flex items-center justify-center py-2.5 cursor-pointer flex items-center gap-2`}
+          isMobile ? "w-14 h-full" : "px-5"
+        } shadow-lg rounded-lg background flex items-center justify-center py-2.5 cursor-pointer gap-2`}
         onClick={() => toggleDisconnectButton()}
       >
         {walletIcon ? (
           <>
             <img src={walletIcon} className="h-5" alt="wallet icon"></img>
             <p>
-              {networkId === 0 ? "(preview) " : ""}
+              {networkId === 0 ? "(preview) " : null}
               {isMobile ? null : walletAddress}
             </p>
           </>
@@ -134,15 +134,15 @@ function WalletSelector({ connectWallet, isMobile }: Props) {
       <div
         ref={disconnectButtonMenu.ref}
         className={
-          "absolute top-14 w-full background py-2.5 px-5 shadow-lg rounded-lg cursor-pointer flex items-center gap-2" +
+          "absolute top-14 w-full background py-2.5 px-5 shadow-lg rounded-lg cursor-pointer flex items-center" +
           (connectedWallet?.wallet?.api && disconnectButtonMenu.visible
             ? ""
             : " hidden")
         }
         onClick={disconnectWallet}
       >
-        <FontAwesomeIcon icon={faLinkSlash} />
-        Disconnect
+        <FontAwesomeIcon className={isMobile ? "" : "mr-2.5"} icon={faLinkSlash} />
+        {isMobile ? null : "Disconnect"}
       </div>
     </div>
   );

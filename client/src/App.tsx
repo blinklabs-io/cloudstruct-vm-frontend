@@ -7,6 +7,7 @@ import PopUp from "src/components/PopUp";
 import RouterWrapper from "src/layouts/RouterWrapper";
 import "src/styles.scss";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import { Blockchain } from "./entities/common.entities";
 import BlockchainWrapper from "./layouts/BlockchainWrapper";
 import MenuWrapper from "./layouts/MenuWrapper";
@@ -33,12 +34,13 @@ function App() {
       <>
         <PopUp></PopUp>
         <Modal />
-        <Header></Header>
+        <Header />
         <BlockchainWrapper>
           <MenuWrapper>
             <RouterWrapper />
           </MenuWrapper>
         </BlockchainWrapper>
+        <Footer />
       </>
     </ThemeWrapper>
   );
