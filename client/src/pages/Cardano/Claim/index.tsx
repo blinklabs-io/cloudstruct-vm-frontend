@@ -67,6 +67,15 @@ function Claim() {
     init();
   }, [connectedWallet?.wallet?.api, connectedWallet, isWrongNetwork]);
 
+  const getNumberOfPremiumTokens = useCallback(() => {
+    return claimableTokens.reduce((prev, token) => {
+      if (token.premium && token.ticker !== "ADA") {
+        prev += 1;
+      }
+      return prev;
+    }, 0);
+  }, [claimableTokens]);
+
   const getNumberOfSelectedTokens = useCallback(() => {
     return claimableTokens.reduce((prev, token) => {
       if (token.selected) {
@@ -90,8 +99,10 @@ function Claim() {
    */
   const selectAll = () => {
     const updatedClaimableTokens = [...claimableTokens];
-    if (numberOfSelectedTokens < claimableTokens.length) {
-      updatedClaimableTokens.forEach((token) => (token.selected = true));
+    if (numberOfSelectedTokens < (whitelisted ? claimableTokens.length : (claimableTokens.length - getNumberOfPremiumTokens()))) {
+      updatedClaimableTokens.forEach((token) => (
+        token.selected = (token.premium ? (whitelisted ? true : false) : true)
+      ));
     } else {
       updatedClaimableTokens.forEach((token) => (token.selected = false));
     }
@@ -365,7 +376,7 @@ function Claim() {
                 className="cs-button py-2.5 px-5 shadow-lg rounded-lg"
                 onClick={selectAll}
               >
-                {numberOfSelectedTokens === claimableTokens.length
+                {numberOfSelectedTokens === (whitelisted ? claimableTokens.length : (claimableTokens.length - getNumberOfPremiumTokens()))
                   ? "Unselect All"
                   : "Select All"}
               </button>
