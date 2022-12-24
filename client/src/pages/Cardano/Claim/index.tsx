@@ -99,10 +99,16 @@ function Claim() {
    */
   const selectAll = () => {
     const updatedClaimableTokens = [...claimableTokens];
-    if (numberOfSelectedTokens < (whitelisted ? claimableTokens.length : (claimableTokens.length - getNumberOfPremiumTokens()))) {
-      updatedClaimableTokens.forEach((token) => (
-        token.selected = (token.premium ? (whitelisted ? true : false) : true)
-      ));
+    if (
+      numberOfSelectedTokens <
+      (whitelisted
+        ? claimableTokens.length
+        : claimableTokens.length - getNumberOfPremiumTokens())
+    ) {
+      updatedClaimableTokens.forEach(
+        (token) =>
+          (token.selected = token.premium ? (whitelisted ? true : false) : true)
+      );
     } else {
       updatedClaimableTokens.forEach((token) => (token.selected = false));
     }
@@ -374,9 +380,19 @@ function Claim() {
             <div className="ml-auto flex flex-row w-fit">
               <button
                 className="cs-button py-2.5 px-5 shadow-lg rounded-lg"
+                disabled={
+                  claimableTokens.length -
+                    (whitelisted ? 0 : getNumberOfPremiumTokens()) ===
+                  0
+                }
                 onClick={selectAll}
               >
-                {numberOfSelectedTokens === (whitelisted ? claimableTokens.length : (claimableTokens.length - getNumberOfPremiumTokens()))
+                {numberOfSelectedTokens +
+                  (whitelisted ? 0 : getNumberOfPremiumTokens()) ===
+                ((whitelisted
+                  ? claimableTokens.length
+                  : claimableTokens.length - getNumberOfPremiumTokens()) &&
+                  claimableTokens.length !== getNumberOfPremiumTokens())
                   ? "Unselect All"
                   : "Select All"}
               </button>
