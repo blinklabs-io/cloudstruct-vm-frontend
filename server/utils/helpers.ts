@@ -184,7 +184,8 @@ export async function getRewards(stakeAddress: string) {
   ];
 
   // We have no rewards
-  if (rewardArray == null && getRewardsResponse.project_locked_rewards == null) return [];
+  if (rewardArray == null && getRewardsResponse.project_locked_rewards == null)
+    return [];
 
   if (getRewardsResponse.project_locked_rewards != null) {
     rewardArray = [
