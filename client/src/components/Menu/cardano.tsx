@@ -69,12 +69,12 @@ export const menuItems: Record<string, MenuItem> = {
     activeRoute: [PageRoute.projectsCardano],
     icon: faProjectDiagram,
   },
-  // pools: {
-  //   text: "Stake Pools",
-  //   to: PageRoute.poolsCardano,
-  //   activeRoute: [PageRoute.poolsCardano],
-  //   icon: faCubesStacked,
-  // },
+  pools: {
+    text: "Stake Pools",
+    to: PageRoute.poolsCardano,
+    activeRoute: [PageRoute.poolsCardano],
+    icon: faCubesStacked,
+  },
   // dashboard: {
   //   text: "Dashboard",
   //   to: PageRoute.dashboardCardano,
