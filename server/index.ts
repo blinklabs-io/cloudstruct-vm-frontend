@@ -814,6 +814,17 @@ app.get(
 );
 
 app.get(
+  "/api/getfeaturedpools",
+  oapi.path(resp200Ok),
+  async (req: any, res: any) => {
+    const pools = JSON.parse(
+      fs.readFileSync(__dirname + "/public/json/pools.json", "utf8")
+    );
+    return res.status(200).send(pools);
+  }
+);
+
+app.get(
   "/api/getprojects",
   oapi.path(resp200Ok),
   async (req: any, res: any) => {

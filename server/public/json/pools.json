@@ -1,0 +1,9 @@
+[
+  {
+    "ticker": "CSCS",
+    "name": "CloudStruct Cardano Staking",
+    "logo": "/api/img/cloudstruct-logo/cloudstruct.png",
+    "description": "CloudStruct was founded by senior professional **operations engineers** and **open source developers**.\n\nOur engineers have experience at companies like Box, Oracle, Yahoo, Microsoft, and Apple. We have decades of hands-on expertise running **global scale** infrastructure, telecommunications, distributed data systems, and low latency/high-throughput services with users in the billions. We have been involved in various open source ecosystems from Gentoo Linux to Chef to Ansible.\n\nCheck out our open source projects on **[GitHub](https://github.com/cloudstruct)** or join the conversation on our **[Discord server](https://discord.gg/5fPRZnX4qW)**.\n\n",
+    "visible": "t"
+  }
+]
