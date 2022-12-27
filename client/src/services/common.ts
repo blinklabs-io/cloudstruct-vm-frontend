@@ -61,6 +61,12 @@ export async function getPopUpInfo(): Promise<PopUpInfo> {
   return response.data;
 }
 
+export async function getFeaturedPools(): Promise<StakePoolInfo[]> {
+  const response = await axios.get(`/api/getfeaturedpools`);
+  const pools = response.data;
+  return Object.values(pools);
+}
+
 export async function getPools(): Promise<StakePoolInfo[]> {
   const response = await axios.get(`/api/getpools`);
   const pools = response.data;
