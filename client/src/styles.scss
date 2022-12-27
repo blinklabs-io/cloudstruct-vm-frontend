@@ -26,6 +26,7 @@ body,
 .app {
   background: var(--body-background);
   overflow-x: hidden;
+  overflow-y: scroll;
 }
 
 strong {
