@@ -1,8 +1,6 @@
 import {
   faArrowUpRightFromSquare,
   faBook,
-  faMoon,
-  faSun,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useRef } from "react";
@@ -12,16 +10,14 @@ import {
   MenuItem,
   PageRoute,
   SocialMediaItem,
-  Themes,
 } from "src/entities/common.entities";
-import { setShowMenu, toggleTheme } from "src/reducers/globalSlice";
+import { setShowMenu } from "src/reducers/globalSlice";
 import { RootState } from "src/store";
 import { menuItems, socialMediaItems } from "../Menu/cardano";
 import "./index.scss";
 
 export default function MobileMenuCardano() {
   const showMenu = useSelector((state: RootState) => state.global.showMenu);
-  const theme = useSelector((state: RootState) => state.global.theme);
   const location = useLocation().pathname;
   const dispatch = useDispatch();
 
