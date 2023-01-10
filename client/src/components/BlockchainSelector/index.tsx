@@ -37,7 +37,7 @@ export default function BlockchainSelector({
       <button
         className={`${
           isMobile ? "" : "px-5"
-        } w-full h-full background rounded-lg py-2.5 flex justify-center items-center gap-2`}
+        } w-full h-full background rounded-lg shadow-lg py-2.5 flex justify-center items-center gap-2`}
         onClick={() => setVisible(!visible)}
       >
         <img alt="blockchain logo" className="h-5" src={network.img}></img>
@@ -46,7 +46,7 @@ export default function BlockchainSelector({
       {visible ? (
         <Link to={network.to} onClick={() => setVisible(false)}>
           <button
-            className={`w-full h-full absolute mt-2.5 background rounded-lg px-5 py-2.5 flex items-center justify-center gap-2 right-0`}
+            className={`w-full h-full absolute mt-2.5 background rounded-lg shadow-lg px-5 py-2.5 flex items-center justify-center gap-2 right-0`}
           >
             <img
               alt="blockchain logo"
