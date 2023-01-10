@@ -38,7 +38,7 @@
 - name: Cron job to run Ansible
   ansible.builtin.cron:
     name: Run Ansible
-    cron_file: run-ansible
+    cron_file: 'run-ansible-{{ vm_frontend_port }}'
     user: root
     job: '/bin/sleep {{ 300 | random }}; {{ REPO }}/runme.sh > {{ REPO }}/logs/run-ansible.log 2>&1'
     minute: '2,17,32,47'
