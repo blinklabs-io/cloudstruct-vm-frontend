@@ -1,19 +1,16 @@
-import { faBars, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logoDark from "src/assets/cloudstruct-dark.png";
-import logoLight from "src/assets/cloudstruct-light.png";
-import { Blockchain, Themes } from "src/entities/common.entities";
-import { toggleMenu, toggleTheme } from "src/reducers/globalSlice";
+import { Blockchain } from "src/entities/common.entities";
+import { toggleMenu } from "src/reducers/globalSlice";
 import { RootState } from "src/store";
-import BlockchainSelector from "../BlockchainSelector";
 import CardanoWalletSelector from "../WalletSelector/CardanoWalletSelector";
 import ErgoWalletSelector from "../WalletSelector/ErgoWalletSelector";
 
 function Header() {
   const dispatch = useDispatch();
-  const theme = useSelector((state: RootState) => state.global.theme);
   const chain = useSelector((state: RootState) => state.global.chain);
 
   const RenderWalletConnector = () => {
@@ -32,7 +29,7 @@ function Header() {
         <Link to="/">
           <div className="">
             <img
-              src={theme === Themes.dark ? logoDark : logoLight}
+              src={logoDark}
               className="h-20 logo"
               alt="cloudstruct logo"
             ></img>
@@ -55,7 +52,7 @@ function Header() {
         </div>
         <div>
           <img
-            src={theme === Themes.dark ? logoDark : logoLight}
+            src={logoDark}
             className="h-14 mr-2.5 logo"
             alt="cloudstruct logo"
           ></img>

@@ -1,7 +1,6 @@
 import {
   faDiscord,
   faGithub,
-  faMedium,
   faTelegram,
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
@@ -11,7 +10,6 @@ import {
   faClockRotateLeft,
   faCloudRain,
   faCubesStacked,
-  faMessage,
   faProjectDiagram,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
