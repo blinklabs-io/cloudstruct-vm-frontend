@@ -11,7 +11,11 @@ import { RootState } from "src/store";
 import { abbreviateAddress } from "src/utils";
 import WalletSelector from "./WalletSelector";
 
-function CardanoWalletSelector() {
+interface Props {
+  isMobile: boolean;
+}
+
+function CardanoWalletSelector({ isMobile }: Props) {
   const { connectWallet } = useWallet();
   const walletInfoNotConnected: WalletInfo = useMemo(
     () => ({
@@ -80,7 +84,7 @@ function CardanoWalletSelector() {
       showWalletSelection={showWalletSelection}
       walletState={walletState}
       walletInfo={walletInfo}
-      isMobile={false}
+      isMobile={isMobile}
     ></WalletSelector>
   );
 }

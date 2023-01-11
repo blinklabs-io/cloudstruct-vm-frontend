@@ -5,10 +5,11 @@ import { forwardRef } from "react";
 interface Props {
   onClick: () => void;
   isShown: boolean;
+  isMobile: boolean;
 }
 
 const Disconnect = forwardRef<HTMLDivElement, Props>(
-  ({ onClick, isShown }, ref) => {
+  ({ onClick, isShown, isMobile }, ref) => {
     return (
       <div
         ref={ref}
@@ -18,8 +19,8 @@ const Disconnect = forwardRef<HTMLDivElement, Props>(
           (isShown ? "" : " hidden")
         }
       >
-        <FontAwesomeIcon icon={faLinkSlash} />
-        Disconnect
+        <FontAwesomeIcon className={isMobile ? "" : "mr-2.5"} icon={faLinkSlash} />
+        {isMobile ? null : "Disconnect"}
       </div>
     );
   }

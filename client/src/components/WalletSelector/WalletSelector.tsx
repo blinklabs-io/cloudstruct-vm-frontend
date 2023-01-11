@@ -27,14 +27,15 @@ function WalletSelector({
           connecting={walletState === WalletState.connecting}
           iconUrl={walletInfo.iconUrl}
           prefix={walletInfo.prefix ?? ""}
+          isMobile={isMobile}
           disconnectWallet={disconnectWallet}
         ></Connected>
       );
     case WalletState.wrongNetwork:
-      return <WrongNetwork disconnectWallet={disconnectWallet}></WrongNetwork>;
+      return <WrongNetwork disconnectWallet={disconnectWallet} isMobile={isMobile}></WrongNetwork>;
     case WalletState.notConnected:
     default:
-      return <Connect onClick={showWalletSelection}></Connect>;
+      return <Connect onClick={showWalletSelection} isMobile={isMobile}></Connect>;
   }
 }
 

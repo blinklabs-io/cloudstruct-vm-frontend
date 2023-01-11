@@ -16,7 +16,7 @@ function Header() {
   const RenderWalletConnector = () => {
     switch (chain) {
       case Blockchain.cardano:
-        return <CardanoWalletSelector></CardanoWalletSelector>;
+        return <CardanoWalletSelector isMobile={false}></CardanoWalletSelector>;
       case Blockchain.ergo:
         return <ErgoWalletSelector></ErgoWalletSelector>;
     }
@@ -58,7 +58,7 @@ function Header() {
           ></img>
         </div>
         {chain === Blockchain.cardano ? (
-          <CardanoWalletSelector></CardanoWalletSelector>
+          <CardanoWalletSelector isMobile={true}></CardanoWalletSelector>
         ) : null}
       </div>
     </>
