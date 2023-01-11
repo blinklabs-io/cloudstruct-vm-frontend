@@ -3,8 +3,10 @@ import Disconnect from "./Disconnect";
 
 export default function WrongNetwork({
   disconnectWallet,
+  isMobile,
 }: {
   disconnectWallet: () => void;
+  isMobile: boolean;
 }) {
   const disconnectButtonMenu = useComponentVisible(false);
 
@@ -20,12 +22,13 @@ export default function WrongNetwork({
         }
         onClick={toggleDisconnectButton}
       >
-        <p>WRONG NETWORK</p>
+        {isMobile ? null : "WRONG NETWORK"}
       </div>
       <Disconnect
         ref={disconnectButtonMenu.ref}
         isShown={disconnectButtonMenu.visible}
         onClick={disconnectWallet}
+        isMobile={isMobile}
       ></Disconnect>
     </div>
   );

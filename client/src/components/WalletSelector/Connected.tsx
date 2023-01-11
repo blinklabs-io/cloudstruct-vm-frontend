@@ -7,12 +7,14 @@ export default function Connected({
   connecting,
   iconUrl,
   prefix,
+  isMobile,
   disconnectWallet,
 }: {
   address: string;
   connecting: boolean;
   iconUrl?: string;
   prefix?: string;
+  isMobile: boolean;
   disconnectWallet: () => void;
 }) {
   const disconnectButtonMenu = useComponentVisible(false);
@@ -24,13 +26,15 @@ export default function Connected({
   return (
     <div className="relative w-fit">
       <div
-        className="rounded-lg background flex items-center justify-center px-5 py-2.5 cursor-pointer flex items-center gap-2"
+        className={`${
+          isMobile ? "w-14 h-11" : "px-5"
+        } shadow-lg rounded-lg background flex items-center justify-center py-2.5 cursor-pointer flex items-center gap-2`}
         onClick={toggleDisconnectButton}
       >
         {connecting ? (
           <div className="flex flex-row items-center gap-2">
-            Connecting
             <Spinner></Spinner>
+            {isMobile ? null : "Connecting"}
           </div>
         ) : (
           <>
@@ -38,8 +42,8 @@ export default function Connected({
               <img src={iconUrl} className="h-5" alt="wallet icon"></img>
             ) : null}
             <p>
-              {prefix}
-              {address}
+              {isMobile ? null : prefix}
+              {isMobile ? "" : address}
             </p>
           </>
         )}
@@ -48,6 +52,7 @@ export default function Connected({
         ref={disconnectButtonMenu.ref}
         isShown={disconnectButtonMenu.visible}
         onClick={disconnectWallet}
+        isMobile={isMobile}
       ></Disconnect>
     </div>
   );
