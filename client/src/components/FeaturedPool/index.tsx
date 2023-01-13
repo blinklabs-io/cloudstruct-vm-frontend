@@ -5,7 +5,7 @@ export default function FeaturedPool({ pool }: { pool: StakePoolInfo }) {
   Marked.setOptions({isNoP: true});
   let parsed = Marked.parse(`${pool.description}`)
   return (
-    <div className="background p-5 shadow-2xl rounded-2xl flex flex-row gap-4">
+    <div className="background p-5 shadow-2xl rounded-2xl items-center flex flex-col md:flex-row gap-4">
       <div className="w-72 flex flex-row items-center justify-center">
         <img alt="pool logo" className="w-full" src={pool.logo}></img>
       </div>
