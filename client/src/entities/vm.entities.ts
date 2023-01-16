@@ -57,12 +57,12 @@ export interface Assets {
 export interface ClaimableToken {
   assetId: string;
   ticker: string;
-  price?: string;
   logo: string;
   decimals: number;
   amount: number;
   premium: boolean;
   selected?: boolean;
+  price?: string;
 }
 
 export interface GetTokens {
