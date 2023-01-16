@@ -70,7 +70,7 @@ const ClaimableTokenBox = ({
           Price: {price === "N/A" ? price : (Number(price).toFixed(8).toString()) + " ₳"}
         </div>
         <div className="text-center">
-          Total: {price === "N/A" ? price : (Number(Number(price).toFixed(8)) * (amount / Math.pow(10, decimals))).toString() + " ₳"}
+          Total: {price === "N/A" ? price : (Number(Number(price).toFixed(16)) * (amount / Math.pow(10, decimals))).toFixed(8).toString() + " ₳"}
         </div>
       </div>
     </div>
