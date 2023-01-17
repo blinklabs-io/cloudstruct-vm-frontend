@@ -34,8 +34,8 @@ const CLAIM_ENABLED = process.env.CLAIM_ENABLED || true;
 const CLOUDFLARE_PSK = process.env.CLOUDFLARE_PSK;
 const LOG_TYPE = process.env.LOG_TYPE || "dev";
 const PORT = process.env.PORT || 3000;
-const CSFEE = process.env.CSFEE || 500000;
-const CSFEE_WHITELIST = process.env.CSFEE_WHITELIST;
+const CLAIM_FEE = process.env.CLAIM_FEE || 500000;
+const CLAIM_FEE_WHITELIST = process.env.CLAIM_FEE_WHITELIST;
 const VM_KOIOS_URL = process.env.KOIOS_URL_TESTNET || process.env.KOIOS_URL;
 
 const oapi = openapi({
@@ -173,8 +173,8 @@ app.get("/healthz", async (req: any, res: any) => {
 
 app.get("/features", (req: any, res: any) => {
   const features: ICSFeatures = {
-    cs_fee: Number(CSFEE),
-    cs_fee_whitelist: CSFEE_WHITELIST,
+    claim_fee: Number(CLAIM_FEE),
+    claim_fee_whitelist: CLAIM_FEE_WHITELIST,
     airdrop_enabled:
       typeof AIRDROP_ENABLED == "string"
         ? JSON.parse(AIRDROP_ENABLED.toLowerCase())
@@ -393,13 +393,13 @@ app.get(
       let claimableTokens = await getRewards(stakeAddress);
       const accountsInfo = await getAccountsInfo(stakeAddress);
       const poolInfo = await getPoolMetadata(accountsInfo[0]);
-      if (CSFEE_WHITELIST) {
-        const whitelist = CSFEE_WHITELIST.split(",");
+      if (CLAIM_FEE_WHITELIST) {
+        const whitelist = CLAIM_FEE_WHITELIST.split(",");
         const accountsInfo = await getAccountsInfo(`${stakeAddress}`);
         const accountInfo = accountsInfo[0];
         if (whitelist.includes(accountInfo.delegated_pool))
           isWhitelisted = true;
-        // else `&overhead_fee=${CSFEE}&unlocks_special=true`
+        // else `&overhead_fee=${CLAIM_FEE}&unlocks_special=true`
       }
 
       const consolidatedGetRewards = {
@@ -496,13 +496,13 @@ app.get(
       if (!staking_address)
         return res.status(400).send({ error: "staking_address required" });
 
-      if (CSFEE_WHITELIST) {
-        const whitelist = CSFEE_WHITELIST.split(",");
+      if (CLAIM_FEE_WHITELIST) {
+        const whitelist = CLAIM_FEE_WHITELIST.split(",");
         const accountsInfo = await getAccountsInfo(`${staking_address}`);
         const accountInfo = accountsInfo[0];
         if (whitelist.includes(accountInfo.delegated_pool))
           isWhitelisted = true;
-        // else `&overhead_fee=${CSFEE}&unlocks_special=true`
+        // else `&overhead_fee=${CLAIM_FEE}&unlocks_special=true`
       }
       vmArgs += `&unlocks_special=${isWhitelisted}`;
 
