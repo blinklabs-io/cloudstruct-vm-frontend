@@ -15,7 +15,7 @@ interface Props {
 interface ISettings {
   vmFee: number;
   txFee: number;
-  csFee: number;
+  claimFee: number;
 }
 
 const TransactionDetail = ({
@@ -27,7 +27,7 @@ const TransactionDetail = ({
   const [settings, setSettings] = useState<ISettings>({
     vmFee: 0,
     txFee: 440000,
-    csFee: 500000,
+    claimFee: 500000,
   });
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const TransactionDetail = ({
       const settingsFromFeatures = await getFeatures();
       setSettings({
         ...settings,
-        csFee: settingsFromFeatures.cs_fee,
+        claimFee: settingsFromFeatures.claim_fee,
         vmFee: settingsFromVM.withdrawal_fee,
       });
     };
@@ -52,7 +52,7 @@ const TransactionDetail = ({
 
   const calcReturnedAda = () => {
     let returnedAda = deposit - settings.vmFee - calcTxFee();
-    if (unlock && !isWhitelisted) returnedAda -= settings.csFee;
+    if (unlock && !isWhitelisted) returnedAda -= settings.claimFee;
     return returnedAda;
   };
 
@@ -76,7 +76,7 @@ const TransactionDetail = ({
       {unlock && !isWhitelisted ? (
         <div className="p-1 flex items-center flex-row-reverse border-b border-color text-premium">
           <div className="w-28 text-right">
-            {lovelaceToAda(settings.csFee)} ADA
+            {lovelaceToAda(settings.claimFee)} ADA
           </div>
           <div className="tooltip-activator cursor-help text-right">
             Premium token fee <FontAwesomeIcon icon={faQuestionCircle} />
