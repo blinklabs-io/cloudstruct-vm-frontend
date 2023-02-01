@@ -1,4 +1,4 @@
-import AdaTooltip from "../ClaimFeeTooltip";
+import AdaTooltip from "../AdaTooltip";
 import ClaimFeeTooltip from "../ClaimFeeTooltip";
 import TokenInfoTooltip from "../TokenInfoTooltip";
 
@@ -40,8 +40,8 @@ const ClaimableTokenBox = ({
       <div className="w-full flex flex-row items-center">
         <div>{ticker}</div>
         <div className="ml-auto flex flex-row align-center gap-2">
-          {ticker === "ADA" ? <AdaTooltip></AdaTooltip> : null}
           {premium ? <ClaimFeeTooltip></ClaimFeeTooltip> : null}
+          {ticker === "ADA" ? <AdaTooltip></AdaTooltip> : null}
         </div>
       </div>
       <img alt="logo" src={logo} className="h-24"></img>

@@ -9,7 +9,8 @@ export default function ClaimFeeTooltip() {
         icon={faStar}
       />
       <div className="tooltip w-64 p-3.5 rounded-2xl right-5 bottom-5 absolute">
-        TosiFee is applied to tokens that use TosiDrop services.
+        The star indicates a token is distrbuted by CloudStruct as an
+        incentive for delegating with our stake pool, CSCS.
       </div>
     </span>
   );
