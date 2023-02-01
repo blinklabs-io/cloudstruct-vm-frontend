@@ -32,8 +32,12 @@ const Pools = () => {
         at no additional charge
       </div>
       <div className="flex flex-col gap-4">
-        {pools.map((pool) => (
-          <Pool key={pool.ticker} pool={pool}></Pool>
+        <p className="text-xl">CSPA pools registered with VM</p>
+        {pools.whitelistedPools.map((pool) => (
+          <Pool key={pool.id} pool={pool}></Pool>
+        ))}
+        {pools.regularPools.map((pool) => (
+          <Pool key={pool.id} pool={pool}></Pool>
         ))}
       </div>
     </>

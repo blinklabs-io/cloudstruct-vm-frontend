@@ -4,12 +4,20 @@ import {
   RewardAddress,
 } from "@emurgo/cardano-serialization-lib-nodejs";
 import express, { Request, Response } from "express";
+import * as _ from "lodash";
 import url from "url";
-import { GetQueueDto } from "../client/src/entities/dto";
+import {
+  GetDeliveredRewardsDto,
+  GetPoolsDto,
+  GetQueueDto,
+  ServerErrorDto,
+} from "../client/src/entities/dto";
 import { Tip, TransactionStatus } from "../client/src/entities/koios.entities";
+import { PoolInfo } from "../client/src/entities/vm.entities";
 import {
   CardanoNetwork,
   getAccountsInfo,
+  getDeliveredRewards,
   getEpochParams,
   getFromKoios,
   getFromVM,
@@ -24,19 +32,20 @@ import {
   translateAdaHandle,
 } from "./utils";
 import { ICustomRewards } from "./utils/entities";
+import { logError } from "./utils/error";
 
 require("dotenv").config();
 const openapi = require("@wesleytodd/openapi");
 const fs = require("fs");
-const AIRDROP_ENABLED = process.env.AIRDROP_ENABLED || true;
 const CARDANO_NETWORK = process.env.CARDANO_NETWORK || CardanoNetwork.preview;
-const CLAIM_ENABLED = process.env.CLAIM_ENABLED || true;
 const CLOUDFLARE_PSK = process.env.CLOUDFLARE_PSK;
 const LOG_TYPE = process.env.LOG_TYPE || "dev";
 const PORT = process.env.PORT || 3000;
 const CLAIM_FEE = process.env.CLAIM_FEE || 500000;
 const CLAIM_FEE_WHITELIST = process.env.CLAIM_FEE_WHITELIST;
 const VM_KOIOS_URL = process.env.KOIOS_URL_TESTNET || process.env.KOIOS_URL;
+const CLAIM_ENABLED = process.env.CLAIM_ENABLED === "true";
+const ERGO_ENABLED = process.env.ERGO_ENABLED === "true";
 
 const oapi = openapi({
   openapi: "3.0.0",
@@ -116,10 +125,32 @@ app.get("/api/getprices", oapi.path(resp200Ok), async (req, res) => {
   return res.status(200).send(prices);
 });
 
-app.get("/api/getpools", oapi.path(resp200Ok), async (req, res) => {
-  const pools = await getPools();
-  return res.status(200).send(pools);
-});
+app.get(
+  "/api/getpools",
+  oapi.path(resp200Ok),
+  async (req, res: Response<GetPoolsDto>) => {
+    const pools = await getPools();
+
+    /** did this because value in env use 'pool...' as ID whereas VM retuns pool ID */
+    const whitelistedPoolTickers = ["BBHMM", "OTG", "PSB", "SEAL", "APEX"];
+    const whitelistedPools: PoolInfo[] = [];
+    const regularPools: PoolInfo[] = [];
+    Object.values(pools).forEach((pool) => {
+      if (pool.visible === "f" || pool.id.includes("project_")) {
+        return;
+      }
+      if (whitelistedPoolTickers.includes(pool.ticker)) {
+        whitelistedPools.push(pool);
+      } else {
+        regularPools.push(pool);
+      }
+    });
+    return res.status(200).send({
+      whitelistedPools: _.shuffle(whitelistedPools),
+      regularPools: _.shuffle(regularPools),
+    });
+  }
+);
 
 app.get("/api/gettokens", oapi.path(resp200Ok), async (req, res) => {
   const tokens = await getTokens();
@@ -175,15 +206,9 @@ app.get("/features", (req: any, res: any) => {
   const features: ICSFeatures = {
     claim_fee: Number(CLAIM_FEE),
     claim_fee_whitelist: CLAIM_FEE_WHITELIST,
-    airdrop_enabled:
-      typeof AIRDROP_ENABLED == "string"
-        ? JSON.parse(AIRDROP_ENABLED.toLowerCase())
-        : AIRDROP_ENABLED,
-    claim_enabled:
-      typeof CLAIM_ENABLED == "string"
-        ? JSON.parse(CLAIM_ENABLED.toLowerCase())
-        : CLAIM_ENABLED,
+    claim_enabled: CLAIM_ENABLED,
     network: CARDANO_NETWORK,
+    ergo_enabled: ERGO_ENABLED,
   };
 
   return res.status(200).send(features);
@@ -522,6 +547,7 @@ app.get(
 
       return res.send(customReward);
     } catch (e: any) {
+      logError(e);
       return res
         .status(500)
         .send({ error: "An error occurred in /api/getcustomrewards" });
@@ -531,70 +557,28 @@ app.get(
 
 app.get(
   "/api/getdeliveredrewards",
-  oapi.path({
-    description: "Return delivered rewards from a given stake address.",
-    parameters: [
-      {
-        name: "staking_address",
-        in: "query",
-        required: true,
-      },
-    ],
-    responses: {
-      200: {
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-            },
-          },
-        },
-      },
-      400: {
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                error: { type: "string" },
-              },
-            },
-          },
-        },
-      },
-      500: {
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                error: { type: "string" },
-              },
-            },
-          },
-        },
-      },
-    },
-  }),
-  async (req: any, res: any) => {
+  async (req: any, res: Response<GetDeliveredRewardsDto | ServerErrorDto>) => {
     try {
       const queryObject = url.parse(req.url, true).query;
-      const { staking_address } = queryObject;
-      let vmArgs = `delivered_rewards&staking_address=${staking_address}`;
-      if (!staking_address)
+      const { staking_address: stakingAddress } = queryObject;
+      if (!stakingAddress) {
         return res
           .status(400)
           .send({ error: "No address provided to /api/getdeliveredrewards" });
-
-      const deliveredRewards: any = await getFromVM(vmArgs);
-      if (deliveredRewards == null) {
-        throw new Error();
       }
-      return res.send(deliveredRewards);
+
+      const deliveredRewards = await getDeliveredRewards(
+        stakingAddress as string
+      );
+
+      return res.status(200).send({
+        deliveredRewards,
+      });
     } catch (e: any) {
+      logError(e);
       return res
         .status(500)
-        .send({ error: "An error occurred in /api/getcustomrewards" });
+        .send({ error: "An error occurred in /api/getdeliveredrewards" });
     }
   }
 );

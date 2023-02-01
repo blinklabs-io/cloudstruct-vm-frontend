@@ -16,7 +16,7 @@ export interface IVMSettings {
 export interface ICSFeatures {
   claim_fee: number;
   claim_fee_whitelist: any;
-  airdrop_enabled: boolean;
   claim_enabled: boolean;
   network: string;
+  ergo_enabled: boolean;
 }

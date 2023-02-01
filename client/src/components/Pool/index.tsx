@@ -1,7 +1,7 @@
 import { Marked } from '@ts-stack/markdown';
-import { StakePoolInfo } from "src/entities/common.entities";
+import { PoolInfo } from "src/entities/vm.entities";
 
-export default function Pool({ pool }: { pool: StakePoolInfo }) {
+export default function Pool({ pool }: { pool: PoolInfo }) {
   Marked.setOptions({isNoP: true});
   let parsed = Marked.parse(`${pool.description}`)
   return (
@@ -11,7 +11,7 @@ export default function Pool({ pool }: { pool: StakePoolInfo }) {
       </div>
       <div className="w-full flex flex-col gap-2">
         <div className="font-extrabold text-lg">
-          ({pool.ticker}) {pool.name}
+          [{pool.ticker}] {pool.name}
         </div>
         <div className="break-normal" dangerouslySetInnerHTML={{ __html: parsed === "null" ? "" : parsed }} />
       </div>

@@ -12,6 +12,7 @@ interface State {
   showModal: ModalTypes | null;
   infoModalDetails: InfoModalDetails;
   chain: Blockchain;
+  ergoEnabled: boolean;
 }
 
 interface InfoModalDetails {
@@ -28,6 +29,7 @@ const initialState: State = {
     type: InfoModalTypes.info,
   },
   chain: Blockchain.cardano,
+  ergoEnabled: false,
 };
 
 export const globalSlice = createSlice({
@@ -72,6 +74,9 @@ export const globalSlice = createSlice({
     setChain: (state, action: PayloadAction<Blockchain>) => {
       state.chain = action.payload;
     },
+    setErgoEnabled: (state, action: PayloadAction<boolean>) => {
+      state.ergoEnabled = action.payload;
+    },
   },
 });
 
@@ -83,5 +88,6 @@ export const {
   showModal,
   hideModal,
   setChain,
+  setErgoEnabled,
 } = globalSlice.actions;
 export default globalSlice.reducer;

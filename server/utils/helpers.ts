@@ -1,22 +1,25 @@
 import axios from "axios";
+import { CardanoNetwork } from ".";
+import {
+  DeliveredReward,
+  ExtendedMetadata,
+  Metadata,
+} from "../../client/src/entities/common.entities";
 import {
   AccountAddress,
   AccountInfo,
   EpochParams,
   PoolInfo,
 } from "../../client/src/entities/koios.entities";
-import {
-  GetPools,
-  GetTokens,
-  ClaimableToken,
-  GetRewardsDto,
-} from "../../client/src/entities/vm.entities";
-import {
-  ExtendedMetadata,
-  Metadata,
-} from "../../client/src/entities/common.entities";
 import { GetPricePairs } from "../../client/src/entities/min.entities";
-import { CardanoNetwork } from ".";
+import {
+  ClaimableToken,
+  GetPools,
+  GetRewardsDto,
+  VmDeliveredReward,
+  VmTokenInfoMap,
+} from "../../client/src/entities/vm.entities";
+import { longTermCache, shortTermCache } from "./cache";
 
 require("dotenv").config();
 
@@ -116,15 +119,30 @@ export async function postPoolInfo(pools: string[]) {
 }
 
 export async function getPools() {
-  return getFromVM<GetPools>("get_pools");
+  let pools: GetPools | undefined = longTermCache.get("pools");
+  if (pools == null) {
+    pools = await getFromVM<GetPools>("get_pools");
+    longTermCache.set("pools", pools);
+  }
+  return pools;
 }
 
-export async function getTokens() {
-  return getFromVM<GetTokens>("get_tokens");
+export async function getTokens(): Promise<VmTokenInfoMap> {
+  let tokenInfo = longTermCache.get<VmTokenInfoMap>("tokenInfo");
+  if (tokenInfo == null) {
+    tokenInfo = await getFromVM<VmTokenInfoMap>("get_tokens");
+    longTermCache.set("tokenInfo", tokenInfo);
+  }
+  return tokenInfo;
 }
 
-export async function getPrices() {
-  return (await axios.get<GetPricePairs>(MIN_PAIRS_API)).data;
+export async function getPrices(): Promise<GetPricePairs> {
+  let prices = shortTermCache.get("prices") as GetPricePairs;
+  if (prices == null) {
+    prices = (await axios.get<GetPricePairs>(MIN_PAIRS_API)).data;
+    shortTermCache.set("prices", prices);
+  }
+  return prices;
 }
 
 export async function getPoolMetadata(accountInfo: any) {
@@ -162,100 +180,91 @@ export async function getPoolMetadata(accountInfo: any) {
 }
 
 export async function getRewards(stakeAddress: string) {
-  const getRewardsResponse = await getFromVM<GetRewardsDto>(
-    `get_rewards&staking_address=${stakeAddress}`
-  );
+  const [getRewardsResponse, tokens, prices] = await Promise.all([
+    getFromVM<GetRewardsDto>(`get_rewards&staking_address=${stakeAddress}`),
+    getTokens(),
+    getPrices(),
+  ]);
   if (getRewardsResponse == null) return;
-  const tokens = await getTokens();
   if (tokens == null) return;
-  const prices = await getPrices();
 
   const consolidatedAvailableReward: { [key: string]: number } = {};
   const consolidatedAvailableRewardPremium: { [key: string]: number } = {};
   const claimableTokens: ClaimableToken[] = [];
 
-  /**
-   * handle regular tokens
-   */
+  /** handle regular tokens */
+  const regularRewards: Record<string, number> = {
+    ...getRewardsResponse.consolidated_promises,
+    ...getRewardsResponse.consolidated_rewards,
+  };
 
-  let rewardArray = [
-    getRewardsResponse.consolidated_promises,
-    getRewardsResponse.consolidated_rewards,
-  ];
+  Object.entries(regularRewards).forEach(([assetId, amount]) => {
+    if (consolidatedAvailableReward[assetId]) {
+      consolidatedAvailableReward[assetId] += amount;
+    } else {
+      consolidatedAvailableReward[assetId] = amount;
+    }
+  });
 
-  // We have no rewards
-  if (rewardArray == null && getRewardsResponse.project_locked_rewards == null)
-    return [];
+  /** handle premium tokens */
+  const premiumRewards: Record<string, number> = {
+    ...(getRewardsResponse.project_locked_rewards?.consolidated_promises ?? {}),
+    ...(getRewardsResponse.project_locked_rewards?.consolidated_rewards ?? {}),
+  };
 
-  if (getRewardsResponse.project_locked_rewards != null) {
-    rewardArray = [
-      getRewardsResponse.project_locked_rewards.consolidated_promises,
-      getRewardsResponse.project_locked_rewards.consolidated_rewards,
-    ];
-
-    if (rewardArray != null) {
-      // We have premium tokens to check
-      rewardArray.forEach((reward: any) => {
-        Object.keys(reward).forEach((assetId: string) => {
-          // Treat ADA as non-premium, always
-          if (assetId === "lovelace") {
-            if (consolidatedAvailableReward[assetId]) {
-              consolidatedAvailableReward[assetId] += reward[assetId];
-            } else {
-              consolidatedAvailableReward[assetId] = reward[assetId];
-            }
-          } else if (consolidatedAvailableRewardPremium[assetId]) {
-            consolidatedAvailableRewardPremium[assetId] += reward[assetId];
-          } else {
-            consolidatedAvailableRewardPremium[assetId] = reward[assetId];
-          }
-        });
-      });
-
-      Object.keys(consolidatedAvailableRewardPremium).forEach((assetId) => {
-        const token = tokens[assetId];
-        if (token) {
-          claimableTokens.push({
-            assetId,
-            ticker: token.ticker,
-            logo: token.logo,
-            decimals: token.decimals,
-            amount: consolidatedAvailableRewardPremium[assetId],
-            premium: true,
-            price: tokenPrice(assetId, prices),
-          });
-        }
-      });
-    } // end premium
-  }
-
-  // Now, process regular rewards
-  rewardArray = [
-    getRewardsResponse.consolidated_promises,
-    getRewardsResponse.consolidated_rewards,
-  ];
-
-  rewardArray.forEach((reward: any) => {
-    Object.keys(reward).forEach((assetId: string) => {
+  Object.entries(premiumRewards).forEach(([assetId, amount]) => {
+    // Treat ADA as non-premium, always
+    if (assetId === "lovelace") {
       if (consolidatedAvailableReward[assetId]) {
-        consolidatedAvailableReward[assetId] += reward[assetId];
+        consolidatedAvailableReward[assetId] += amount;
       } else {
-        consolidatedAvailableReward[assetId] = reward[assetId];
+        consolidatedAvailableReward[assetId] = amount;
       }
-    });
+    } else if (consolidatedAvailableRewardPremium[assetId]) {
+      consolidatedAvailableRewardPremium[assetId] += amount;
+    } else {
+      consolidatedAvailableRewardPremium[assetId] = amount;
+    }
   });
 
   Object.keys(consolidatedAvailableReward).forEach((assetId) => {
     const token = tokens[assetId];
+    const { decimals: tokenDecimals, logo, ticker } = token;
+    const decimals = Number(tokenDecimals);
+    const amount =
+      consolidatedAvailableReward[assetId] / Math.pow(10, decimals);
+    const { price, total } = getTokenValue(assetId, amount, prices);
     if (token) {
       claimableTokens.push({
         assetId,
-        ticker: token.ticker,
-        logo: token.logo,
-        decimals: token.decimals,
-        amount: consolidatedAvailableReward[assetId],
+        ticker,
+        logo,
+        decimals,
+        amount,
         premium: false,
-        price: tokenPrice(assetId, prices),
+        price,
+        total,
+      });
+    }
+  });
+
+  Object.keys(consolidatedAvailableRewardPremium).forEach((assetId) => {
+    const token = tokens[assetId];
+    const { decimals: tokenDecimals, logo, ticker } = token;
+    const decimals = Number(tokenDecimals);
+    const amount =
+      consolidatedAvailableRewardPremium[assetId] / Math.pow(10, decimals);
+    const { price, total } = getTokenValue(assetId, amount, prices);
+    if (token) {
+      claimableTokens.push({
+        assetId,
+        ticker,
+        logo,
+        decimals,
+        amount,
+        premium: true,
+        price,
+        total,
       });
     }
   });
@@ -291,10 +300,83 @@ export function formatTokens(
   }
 }
 
-export function tokenPrice(token: string, prices: GetPricePairs): string {
-  token = token.replace(".", "");
-  if (token === "lovelace") return "1.0";
-  const price = prices[token + "_lovelace"];
-  if (price) return Number(price["last_price"]).toString(); //.replace(/0*$/, "");
-  return "N/A";
+export function getTokenValue(
+  assetId: string,
+  amount: number,
+  prices: GetPricePairs
+): {
+  price: string;
+  total: string;
+} {
+  assetId = assetId.replace(".", "");
+  if (assetId === "lovelace") {
+    return {
+      price: "1₳",
+      total: `${amount}₳`,
+    };
+  }
+  const price = prices[assetId + "_lovelace"]?.last_price;
+  if (price && amount) {
+    return {
+      price: `${Number(price).toFixed(10)}₳`,
+      total: `${(Number(price) * amount).toFixed(10)}₳`,
+    };
+  }
+  return {
+    price: "N/A",
+    total: "N/A",
+  };
+}
+
+export async function getDeliveredRewards(
+  stakingAddress: string
+): Promise<DeliveredReward[]> {
+  const [vmDeliveredRewards, tokenInfo] = await Promise.all([
+    getFromVM<VmDeliveredReward[]>(
+      `delivered_rewards&staking_address=${stakingAddress}`
+    ),
+    getTokens(),
+  ]);
+  return parseVmDeliveredRewards(vmDeliveredRewards, tokenInfo);
+}
+
+export function parseVmDeliveredRewards(
+  vmDeliveredRewards: VmDeliveredReward[],
+  tokenInfo: VmTokenInfoMap
+): DeliveredReward[] {
+  type RewardMap = Record<string, DeliveredReward>;
+  const rewardMap: RewardMap = {};
+
+  for (let vmDeliveredReward of vmDeliveredRewards) {
+    const { token, delivered_on, amount } = vmDeliveredReward;
+    let ticker: string;
+    if (token === "lovelace") {
+      ticker = "ADA";
+    } else {
+      ticker = Buffer.from(token.split(".")[1], "hex").toString("utf8");
+    }
+
+    const key = `${delivered_on}_${ticker}`;
+    let decimals = 0;
+
+    if (tokenInfo[token]?.decimals) {
+      decimals = Number(tokenInfo[token].decimals);
+    }
+
+    const tokenAmount = Number(amount) / Math.pow(10, decimals);
+
+    if (rewardMap[key]) {
+      rewardMap[key].amount += tokenAmount;
+    } else {
+      rewardMap[key] = {
+        token: token,
+        amount: tokenAmount,
+        delivered_on: delivered_on,
+        ticker,
+        decimals,
+      };
+    }
+  }
+
+  return Object.values(rewardMap);
 }

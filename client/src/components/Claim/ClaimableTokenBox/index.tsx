@@ -1,11 +1,14 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar, faMoneyBillAlt } from "@fortawesome/free-solid-svg-icons";
+import AdaTooltip from "../ClaimFeeTooltip";
+import ClaimFeeTooltip from "../ClaimFeeTooltip";
+import TokenInfoTooltip from "../TokenInfoTooltip";
+
 import "./index.scss";
 
 interface Props {
   index: number;
   ticker: string;
   price: string;
+  total: string;
   selected: boolean;
   handleOnChange: Function;
   amount: number;
@@ -19,17 +22,16 @@ const ClaimableTokenBox = ({
   index,
   ticker,
   price,
+  total,
   selected,
   handleOnChange,
   amount,
-  decimals,
   logo,
-  assetId,
   premium,
 }: Props) => {
   return (
     <div
-      className={`box-border cursor-pointer background shadow-2xl rounded-2xl p-5 flex flex-col gap-4 items-center w-full sm:w-60 border-2 duration-200 ${
+      className={`box-border cursor-pointer background shadow-2xl rounded-2xl p-4 flex flex-col gap-4 items-center w-full sm:w-60 border-2 duration-200 ${
         selected ? "border-selected" : "border-transparent"
       }`}
       key={index}
@@ -37,40 +39,21 @@ const ClaimableTokenBox = ({
     >
       <div className="w-full flex flex-row items-center">
         <div>{ticker}</div>
-        {premium ? (
-          <span className="premium-token tooltip-activator ml-auto">
-            <FontAwesomeIcon
-              className="text-premium cursor-help premium-pulse"
-              icon={faStar}
-            />
-            <div className="tooltip w-64 p-3.5 shadow-2xl rounded-2xl right-5 bottom-5 absolute">
-              The star indicates a token is distrbuted by CloudStruct as an
-              incentive for delegating with our stake pool, CSCS.
-            </div>
-          </span>
-        ) : null}
-        {ticker === "ADA" ? (
-          <span className="premium-token tooltip-activator ml-auto">
-            <FontAwesomeIcon
-              className="text-premium cursor-help premium-pulse"
-              icon={faMoneyBillAlt}
-            />
-            <div className="tooltip w-64 p-3.5 rounded-2xl right-5 bottom-5 absolute">
-              ADA is always returned if it is available for claim.
-            </div>
-          </span>
-        ) : null}
+        <div className="ml-auto flex flex-row align-center gap-2">
+          {ticker === "ADA" ? <AdaTooltip></AdaTooltip> : null}
+          {premium ? <ClaimFeeTooltip></ClaimFeeTooltip> : null}
+        </div>
       </div>
-      <img alt="logo" src={logo} className=" h-24"></img>
+      <img alt="logo" src={logo} className="h-24"></img>
       <div>
         <div className="text-center">
-          Quantity: {amount / Math.pow(10, decimals)}
+          Quantity: {amount}
         </div>
         <div className="text-center">
-          Price: {price === "N/A" ? price : (Number(price).toFixed(8).toString()) + " ₳"}
+          Price: {price}
         </div>
         <div className="text-center">
-          Total: {price === "N/A" ? price : (Number(Number(price).toFixed(16)) * (amount / Math.pow(10, decimals))).toFixed(8).toString() + " ₳"}
+          Total: {total}
         </div>
       </div>
     </div>

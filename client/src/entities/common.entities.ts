@@ -149,7 +149,20 @@ export interface StakePoolInfo {
   visible: StakePoolVisibility;
 }
 
+/**
+ * @deprecated {@link DeliveredReward}
+ * ParsedReward does not really explain what reward is parsed. Also, let's parse
+ * any rewards on server
+ */
 export interface ParsedReward {
+  token: string;
+  ticker: string;
+  amount: number;
+  delivered_on: string;
+  decimals: number;
+}
+
+export interface DeliveredReward {
   token: string;
   ticker: string;
   amount: number;
