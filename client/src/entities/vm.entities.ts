@@ -33,7 +33,25 @@ export interface GetCustomRewards {
   is_whitelisted: boolean;
 }
 
+/**
+ * @deprecated {@link VmDeliveredReward}
+ * there should not be a verb in basic entity definition. Also, let's start
+ * adding prefix 'Vm' to indicate entities from VM
+ */
 export interface GetRewardsHistory {
+  id: string;
+  staking_address: string;
+  epoch: string;
+  token: string;
+  amount: string;
+  withdrawal_request: string;
+  expiry_return_pool_id: string | null;
+  expiry: string;
+  return_policy: string;
+  delivered_on: string;
+}
+
+export interface VmDeliveredReward {
   id: string;
   staking_address: string;
   epoch: string;
@@ -61,14 +79,19 @@ export interface ClaimableToken {
   decimals: number;
   amount: number;
   premium: boolean;
+  price: string;
+  total: string;
   selected?: boolean;
-  price?: string;
 }
 
 export interface GetTokens {
   [key: string]: TokenInfo;
 }
 
+/**
+ * @deprecated {@link VmTokenInfo}
+ * should use 'Vm' prefix if coming from vm
+ */
 export interface TokenInfo {
   id: string;
   enabled: string;
@@ -80,9 +103,22 @@ export interface TokenInfo {
   info: string;
 }
 
+export interface VmTokenInfo {
+  id: string;
+  enabled: string;
+  name: string;
+  ticker: string;
+  logo: string;
+  decimals: string;
+  visible: string;
+  info: string | null;
+}
+
 export interface GetPools {
   [key: string]: PoolInfo;
 }
+
+type PoolVisibility = "t" | "f";
 
 export interface PoolInfo {
   id: string;
@@ -93,6 +129,8 @@ export interface PoolInfo {
   last_delegator_refresh: string;
   loading_addr: string;
   description: string;
-  visible: string;
+  visible: PoolVisibility;
   delegator_count: string;
 }
+
+export type VmTokenInfoMap = Record<string, VmTokenInfo>;

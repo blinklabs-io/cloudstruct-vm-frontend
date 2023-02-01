@@ -350,10 +350,9 @@ function Claim() {
                   key={index}
                   index={index}
                   ticker={token.ticker}
-                  price={token.ticker === "ADA" ? "1.0" : token.price || "N/A"}
-                  selected={
-                    token.ticker === "ADA" ? true : token.selected || false
-                  }
+                  price={token.price ?? "N/A"}
+                  total={token.total ?? "N/A"}
+                  selected={token.ticker === "ADA" ? true : token.selected || false}
                   handleOnChange={handleTokenSelect}
                   amount={token.amount}
                   decimals={token.decimals}
