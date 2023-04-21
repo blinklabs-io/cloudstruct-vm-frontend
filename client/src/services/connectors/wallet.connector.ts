@@ -21,6 +21,7 @@ export enum WalletKeys {
   eternl = "eternl",
   flint = "flint",
   gerowallet = "gerowallet",
+  lace = "lace",
   nami = "nami",
   nufi = "nufi",
   typhoncip30 = "typhoncip30",
