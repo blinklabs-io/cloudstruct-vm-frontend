@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { CardanoNetwork } from ".";
 import {
   DeliveredReward,
@@ -139,8 +139,18 @@ export async function getTokens(): Promise<VmTokenInfoMap> {
 export async function getPrices(): Promise<GetPricePairs> {
   let prices = shortTermCache.get("prices") as GetPricePairs;
   if (prices == null) {
-    prices = (await axios.get<GetPricePairs>(MIN_PAIRS_API)).data;
-    shortTermCache.set("prices", prices);
+    try {
+      const axiosRequestConfig: AxiosRequestConfig<GetPricePairs> =
+        {
+	  method: "GET",
+	  url: MIN_PAIRS_API,
+	  timeout: 10000,
+	};
+      prices = (await axios(axiosRequestConfig)).data;
+      shortTermCache.set("prices", prices);
+    } catch (error: unknown) {
+      prices = {};
+    }
   }
   return prices;
 }
