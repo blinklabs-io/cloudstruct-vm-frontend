@@ -4,7 +4,7 @@
   "description": "CloudStruct Express Router and BFF",
   "repository": {
     "type": "git",
-    "url": "git://github.com/cloudstruct/vm-frontend.git"
+    "url": "git://github.com/blinklabs-io/cloudstruct-vm-frontend.git"
   },
   "engines": {
     "node": ">=16",

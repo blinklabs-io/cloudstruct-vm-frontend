@@ -9,13 +9,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cloudstruct/vm-frontend.git"
+    "url": "git+https://github.com/blinklabs-io/cloudstruct-vm-frontend.git"
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cloudstruct/vm-frontend/issues"
+    "url": "https://github.com/blinklabs-io/cloudstruct-vm-frontend/issues"
   },
-  "homepage": "https://github.com/cloudstruct/vm-frontend#readme",
+  "homepage": "https://github.com/blinklabs-io/cloudstruct-vm-frontend#readme",
   "devDependencies": {
     "concurrently": "^7.1.0"
   }
