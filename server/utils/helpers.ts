@@ -119,21 +119,17 @@ export async function postPoolInfo(pools: string[]) {
 }
 
 export async function getPools() {
-  let pools: GetPools | undefined = longTermCache.get("pools");
-  if (pools == null) {
-    pools = await getFromVM<GetPools>("get_pools");
-    longTermCache.set("pools", pools);
-  }
-  return pools;
+  return getFromVM<GetPools>("get_pools");
 }
 
 export async function getTokens(): Promise<VmTokenInfoMap> {
-  let tokenInfo = longTermCache.get<VmTokenInfoMap>("tokenInfo");
-  if (tokenInfo == null) {
-    tokenInfo = await getFromVM<VmTokenInfoMap>("get_tokens");
-    longTermCache.set("tokenInfo", tokenInfo);
-  }
-  return tokenInfo;
+  return getFromVM<VmTokenInfoMap>("get_tokens");
+  //  let tokenInfo = longTermCache.get("tokenInfo");
+  //  if (tokenInfo == null) {
+  //    tokenInfo = await getFromVM<VmTokenInfoMap>("get_tokens");
+  //    longTermCache.set("tokenInfo", tokenInfo);
+  //  }
+  //  return tokenInfo;
 }
 
 export async function getPrices(): Promise<GetPricePairs> {
