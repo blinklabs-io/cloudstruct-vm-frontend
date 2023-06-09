@@ -1,4 +1,6 @@
 import axios from "axios";
+import converter from "bech32-converting";
+import validator from "validator";
 import { CardanoNetwork } from ".";
 import {
   DeliveredReward,
@@ -19,7 +21,9 @@ import {
   VmDeliveredReward,
   VmTokenInfoMap,
 } from "../../client/src/entities/vm.entities";
+import { MinswapService } from "../service/minswap";
 import { longTermCache, shortTermCache } from "./cache";
+import { HttpStatusCode, createErrorWithCode } from "./error";
 
 require("dotenv").config();
 
@@ -32,12 +36,20 @@ const VM_API_TOKEN =
 const VM_URL = process.env.VM_URL_TESTNET || process.env.VM_URL;
 const VM_KOIOS_URL = process.env.KOIOS_URL_TESTNET || process.env.KOIOS_URL;
 
+export function sanitizeString(input: string) {
+  let output: string = input;
+  output = validator.escape(input);
+  return output;
+}
+
 export async function translateAdaHandle(
   handle: string,
   network: any,
   koiosUrl: string
 ) {
   let urlPrefix, policyId;
+
+  handle = handle.toLowerCase();
 
   switch (network) {
     case CardanoNetwork.mainnet:
@@ -51,12 +63,26 @@ export async function translateAdaHandle(
       policyId = "f0ff48bbb7bbe9d59a40f1ce90e9e9d0ff5002ec48f232b49ca0fb9a";
   }
 
-  handle = handle.slice(1); // remove $
-  if (!handle.length) return null; // check if handle is $
+  handle = handle.slice(1);
+  if (handle.length === 0) {
+    throw createErrorWithCode(
+      HttpStatusCode.BAD_REQUEST,
+      "Handle is malformed"
+    );
+  }
+
   const handleInHex = Buffer.from(handle).toString("hex");
   const url = `${koiosUrl}/asset_address_list?_asset_policy=${policyId}&_asset_name=${handleInHex}`;
+
   const data = (await axios.get(url)).data;
-  if (!data.length) return null;
+
+  if (data.length === 0) {
+    throw createErrorWithCode(
+      HttpStatusCode.NOT_FOUND,
+      "Handle does not exist"
+    );
+  }
+
   const address = data[0].payment_address;
   return address;
 }
@@ -122,20 +148,39 @@ export async function getPools() {
   let pools: GetPools | undefined = longTermCache.get("pools");
   if (pools == null) {
     pools = await getFromVM<GetPools>("get_pools");
+    Object.values(pools).forEach((pool) => {
+      pool.id = convertPoolIdToBech32(pool.id);
+    });
     longTermCache.set("pools", pools);
   }
   return pools;
 }
 
-export async function getTokens(): Promise<VmTokenInfoMap> {
-  let tokenInfo = longTermCache.get<VmTokenInfoMap>("tokenInfo");
-  if (tokenInfo == null) {
+export async function getTokens(options?: {
+  flushCache?: boolean;
+}): Promise<VmTokenInfoMap> {
+  let tokenInfo: VmTokenInfoMap;
+
+  if (options?.flushCache) {
     tokenInfo = await getFromVM<VmTokenInfoMap>("get_tokens");
     longTermCache.set("tokenInfo", tokenInfo);
+  } else {
+    const tempTokenInfo = longTermCache.get<VmTokenInfoMap>("tokenInfo");
+    if (tempTokenInfo == null) {
+      tokenInfo = await getFromVM<VmTokenInfoMap>("get_tokens");
+      longTermCache.set("tokenInfo", tokenInfo);
+    } else {
+      tokenInfo = tempTokenInfo;
+    }
   }
+
   return tokenInfo;
 }
 
+/**
+ * @deprecated replaced by {@link MinswapService.getPrices}
+ * the new function has timeout and handle error better
+ */
 export async function getPrices(): Promise<GetPricePairs> {
   let prices = shortTermCache.get("prices") as GetPricePairs;
   if (prices == null) {
@@ -180,11 +225,12 @@ export async function getPoolMetadata(accountInfo: any) {
 }
 
 export async function getRewards(stakeAddress: string) {
-  const [getRewardsResponse, tokens, prices] = await Promise.all([
+  let [getRewardsResponse, tokens, prices] = await Promise.all([
     getFromVM<GetRewardsDto>(`get_rewards&staking_address=${stakeAddress}`),
     getTokens(),
-    getPrices(),
+    MinswapService.getPrices(),
   ]);
+
   if (getRewardsResponse == null) return;
   if (tokens == null) return;
 
@@ -227,9 +273,21 @@ export async function getRewards(stakeAddress: string) {
     }
   });
 
+  /** if there is no token info in the map, flush the cache and re-fetch token info */
+  for (const assetId of [
+    ...Object.keys(consolidatedAvailableReward),
+    ...Object.keys(consolidatedAvailableRewardPremium),
+  ]) {
+    const token = tokens[assetId];
+    if (token == null) {
+      tokens = await getTokens({ flushCache: true });
+    }
+  }
+
   Object.keys(consolidatedAvailableReward).forEach((assetId) => {
     const token = tokens[assetId];
-    const { decimals: tokenDecimals, logo, ticker } = token;
+    /** add default values just to be safe */
+    const { decimals: tokenDecimals = 0, logo = "", ticker = "" } = token;
     const decimals = Number(tokenDecimals);
     const amount =
       consolidatedAvailableReward[assetId] / Math.pow(10, decimals);
@@ -250,7 +308,8 @@ export async function getRewards(stakeAddress: string) {
 
   Object.keys(consolidatedAvailableRewardPremium).forEach((assetId) => {
     const token = tokens[assetId];
-    const { decimals: tokenDecimals, logo, ticker } = token;
+    /** add default values just to be safe */
+    const { decimals: tokenDecimals = 0, logo = "", ticker = "" } = token;
     const decimals = Number(tokenDecimals);
     const amount =
       consolidatedAvailableRewardPremium[assetId] / Math.pow(10, decimals);
@@ -379,4 +438,12 @@ export function parseVmDeliveredRewards(
   }
 
   return Object.values(rewardMap);
+}
+
+export function convertPoolIdToBech32(poolIdInHex: string) {
+  return converter("pool").toBech32(poolIdInHex);
+}
+
+export function convertHexToBuffer(_: string): Uint8Array {
+  return Buffer.from(_, "hex");
 }

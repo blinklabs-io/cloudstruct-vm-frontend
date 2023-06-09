@@ -1,13 +1,14 @@
+import { Cip30Wallet, WalletApi } from "@cardano-sdk/cip30";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { CardanoTypes } from "src/entities/cardano";
 import { NetworkId } from "src/entities/common.entities";
 import { ErgoWalletApi } from "src/entities/ergo";
-import WalletApi, {
-  CIP0030API,
-} from "src/services/connectors/wallet.connector";
 
 interface WalletState {
+  wallet: Cip30Wallet | undefined;
   walletApi: WalletApi | undefined;
-  api: CIP0030API | undefined;
+  walletAddress: string;
+  walletState: CardanoTypes.WalletState;
   name: string;
   networkId: NetworkId | undefined;
   isWrongNetwork: boolean;
@@ -15,8 +16,10 @@ interface WalletState {
 }
 
 const initialState: WalletState = {
+  wallet: undefined,
   walletApi: undefined,
-  api: undefined,
+  walletAddress: "",
+  walletState: CardanoTypes.WalletState.notConnected,
   name: "",
   networkId: undefined,
   isWrongNetwork: false,
@@ -27,12 +30,26 @@ export const walletSlice = createSlice({
   name: "wallet",
   initialState,
   reducers: {
-    connectWallet: (state, action: PayloadAction<WalletApi>) => {
-      if (!action.payload) return;
-      state.walletApi = action.payload;
-      if (!action.payload.wallet) return;
-      state.name = action.payload.wallet.name;
-      state.api = action.payload.wallet.api;
+    connectWallet: (
+      state,
+      action: PayloadAction<
+        | {
+            wallet: Cip30Wallet;
+            walletApi: WalletApi;
+            walletAddress: string;
+          }
+        | undefined
+      >
+    ) => {
+      state.wallet = action.payload?.wallet;
+      state.walletApi = action.payload?.walletApi;
+      state.walletAddress = action.payload?.walletAddress ?? "";
+    },
+    setWalletState: (
+      state,
+      action: PayloadAction<CardanoTypes.WalletState>
+    ) => {
+      state.walletState = action.payload;
     },
     setNetworkId: (state, action: PayloadAction<NetworkId>) => {
       state.networkId = action.payload;
@@ -46,6 +63,11 @@ export const walletSlice = createSlice({
   },
 });
 
-export const { connectWallet, setNetworkId, setIsWrongNetwork, setErgoWallet } =
-  walletSlice.actions;
+export const {
+  connectWallet,
+  setNetworkId,
+  setIsWrongNetwork,
+  setErgoWallet,
+  setWalletState,
+} = walletSlice.actions;
 export default walletSlice.reducer;

@@ -1,22 +1,26 @@
+import { useSelector } from "react-redux";
 import useComponentVisible from "src/hooks/useComponentVisible";
+import { RootState } from "src/store";
+import { abbreviateAddress } from "src/utils";
 import Spinner from "../Spinner";
 import Disconnect from "./Disconnect";
 
 export default function Connected({
-  address,
   connecting,
   iconUrl,
   prefix,
   isMobile,
   disconnectWallet,
 }: {
-  address: string;
   connecting: boolean;
   iconUrl?: string;
   prefix?: string;
   isMobile: boolean;
   disconnectWallet: () => void;
 }) {
+  const { wallet: connectedWallet, walletAddress: connectedWalletAddress } =
+    useSelector((state: RootState) => state.wallet);
+
   const disconnectButtonMenu = useComponentVisible(false);
 
   const toggleDisconnectButton = () => {
@@ -38,12 +42,16 @@ export default function Connected({
           </div>
         ) : (
           <>
-            {iconUrl ? (
-              <img src={iconUrl} className="h-5" alt="wallet icon"></img>
+            {connectedWallet ? (
+              <img
+                src={connectedWallet.icon}
+                className="h-5"
+                alt="wallet icon"
+              ></img>
             ) : null}
             <p>
               {isMobile ? null : prefix}
-              {isMobile ? "" : address}
+              {isMobile ? "" : abbreviateAddress(connectedWalletAddress)}
             </p>
           </>
         )}

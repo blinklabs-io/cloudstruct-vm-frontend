@@ -1,29 +1,37 @@
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import logoDark from "src/assets/cloudstruct-dark.png";
 import { Blockchain } from "src/entities/common.entities";
 import { toggleMenu } from "src/reducers/globalSlice";
 import { RootState } from "src/store";
+import Banner from "../Banner";
+import BlockchainSelector from "../BlockchainSelector";
 import CardanoWalletSelector from "../WalletSelector/CardanoWalletSelector";
 import ErgoWalletSelector from "../WalletSelector/ErgoWalletSelector";
 
 function Header() {
   const dispatch = useDispatch();
   const chain = useSelector((state: RootState) => state.global.chain);
+  const connectedWallet = useSelector(
+    (state: RootState) => state.wallet.walletApi
+  );
 
-  const RenderWalletConnector = () => {
+  const RenderWalletConnector = useCallback(() => {
     switch (chain) {
       case Blockchain.cardano:
         return <CardanoWalletSelector isMobile={false}></CardanoWalletSelector>;
       case Blockchain.ergo:
         return <ErgoWalletSelector></ErgoWalletSelector>;
     }
-  };
+  }, [connectedWallet]);
 
   return (
     <>
+      <Banner></Banner>
+
       {/* Web header */}
       <div className="flex-row items-center max-w-8xl w-full p-5 pb-0 hidden sm:flex">
         <Link to="/">
